@@ -6,6 +6,7 @@
 }
 
 body {
+  background-image: url("images/bgn.jpg");
   padding: 0;
 }
 
@@ -13,6 +14,7 @@ body {
 .header,
 .marketing,
 .footer {
+  background-color: ;
   padding-left: 15px;
   padding-right: 15px;
 }
