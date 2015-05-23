@@ -6,7 +6,7 @@
 }
 
 body {
-  background-image: url("images/bgn.jpg");
+  background-image: url("#/images/bgn.jpg");
   padding: 0;
 }
 
