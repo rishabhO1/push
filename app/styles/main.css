@@ -5,8 +5,9 @@
   padding: 0.2em 0;
 }
 
-body {
-  background-image: url("#/images/bgn.jpg");
+body {  
+  text-align: center;
+  vertical-align:middle;
   padding: 0;
 }
 

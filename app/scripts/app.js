@@ -29,23 +29,31 @@ angular
       })
       .when('/class', {
         templateUrl: 'views/class.html',
-        controller: 'AboutCtrl'
+        controller: 'ClassCtrl'
       })
       .when('/attendance', {
         templateUrl: 'views/attendance.html',
-        controller: 'AboutCtrl'
+        controller: 'AttendanceCtrl'
       })
       .when('/food', {
         templateUrl: 'views/food.html',
-        controller: 'AboutCtrl'
+        controller: 'FoodCtrl'
       })
       .when('/clubs', {
         templateUrl: 'views/clubs.html',
-        controller: 'AboutCtrl'
+        controller: 'ClubsCtrl'
       })
       .when('/contact', {
         templateUrl: 'views/contact.html',
-        controller: 'AboutCtrl'
+        controller: 'ContactCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl'
       })
 
       .otherwise({
