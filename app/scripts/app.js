@@ -28,16 +28,12 @@ angular
         controller: 'AboutCtrl'
       })
       .when('/class', {
-        templateUrl: 'views/class.html',
-        controller: 'ClassCtrl'
+        templateUrl: 'views/academic.html',
+        controller: 'AcademicCtrl'
       })
-      .when('/attendance', {
-        templateUrl: 'views/attendance.html',
-        controller: 'AttendanceCtrl'
-      })
-      .when('/food', {
-        templateUrl: 'views/food.html',
-        controller: 'FoodCtrl'
+      .when('/hostel', {
+        templateUrl: 'views/hostel.html',
+        controller: 'HostelCtrl'
       })
       .when('/clubs', {
         templateUrl: 'views/clubs.html',

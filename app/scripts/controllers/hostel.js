@@ -8,7 +8,7 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-  .controller('FoodCtrl', function ($scope) {
+  .controller('HostelCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

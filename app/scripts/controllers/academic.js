@@ -8,7 +8,7 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-  .controller('ClassCtrl', function ($scope) {
+  .controller('AcademicCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
