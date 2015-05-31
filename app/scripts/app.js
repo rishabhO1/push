@@ -17,6 +17,9 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+  .factory("Event", function($resource) {
+    return $resource("http://localhost:8080/api/events/:id");
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -46,6 +49,10 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/event', {
+        templateUrl: 'views/event.html',
+        controller: 'EventCtrl'
       })
       .when('/register', {
         templateUrl: 'views/register.html',
