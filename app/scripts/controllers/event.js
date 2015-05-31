@@ -5,6 +5,14 @@ angular.module('projectApp')
   Event.query(function(data) {
     $scope.events = data;
   });
+
+  $scope.deleteEvent = function (eventId) {
+    EventService.delete({ id: eventId });
+    EventService.query(function(data) {
+      $scope.events = data;
+    });
+  };
+
   $scope.editEvent = function(event) {
     $scope.opts = ['on', 'off'];
 

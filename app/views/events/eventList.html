@@ -13,7 +13,7 @@
           <td>{{event.name}}</td>
           <td>
             <button type="button" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-default">Delete</button>
+            <button type="button" ng-click="deleteEvent(event._id)" class="btn btn-default">Delete</button>
           </td>
         </tr>
       </tbody>
