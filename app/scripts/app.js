@@ -51,7 +51,7 @@ angular
         controller: 'LoginCtrl'
       })
       .when('/event', {
-        templateUrl: 'views/event.html',
+        templateUrl: 'views/events/eventList.html',
         controller: 'EventCtrl'
       })
       .when('/register', {
