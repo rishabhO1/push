@@ -18,7 +18,10 @@ angular
     'ngTouch'
   ])
   .factory("Event", function($resource) {
-    return $resource("http://localhost:8080/api/events/:id");
+    return $resource("http://localhost:8080/api/events/:id", null, { 'update': { method:'PUT' } });
+  })
+  .factory("storage", function() {
+    return {};
   })
   .config(function ($routeProvider) {
     $routeProvider
@@ -49,6 +52,10 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/event/edit', {
+        templateUrl: 'views/events/eventEdit.html',
+        controller: 'EventEditCtrl'
       })
       .when('/event', {
         templateUrl: 'views/events/eventList.html',

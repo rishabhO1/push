@@ -1,28 +1,41 @@
 'use strict';
 
 angular.module('projectApp')
-.controller('EventCtrl', function ($scope, Event) {
+.controller('EventCtrl', function ($scope, $location, storage, Event) {
   Event.query(function(data) {
     $scope.events = data;
   });
 
   $scope.deleteEvent = function (eventId) {
-    EventService.delete({ id: eventId });
-    EventService.query(function(data) {
+    Event.delete({ id: eventId });
+    Event.query(function(data) {
       $scope.events = data;
     });
   };
 
   $scope.editEvent = function(event) {
-    $scope.opts = ['on', 'off'];
-
     if (event === 'new') {
-      $scope.newEvent = true;
-      $scope.event = {name: ''};
+      storage.newEvent = true;
+      storage.editedEvent = {name: ''};
     }
     else {
-      $scope.newEvent = false;
-      $scope.event = event;
+      storage.newEvent = false;
+      storage.editedEvent = event;
     }
+    $location.path('/event/edit');
   };
+})
+.controller('EventEditCtrl', function ($scope, $location, storage, Event) {
+  $scope.editedEvent = storage.editedEvent;
+  $scope.save = function(event) {
+    if (storage.newEvent){
+      Event.save(event);
+    } else {
+      Event.update({id:event._id}, event);
+    }
+    $location.path('/event');
+  };
+  $scope.back = function(){
+    $location.path('/event');
+  }
 });
