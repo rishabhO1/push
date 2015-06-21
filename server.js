@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
 var Event = require('./app/models/event');
-var mailingList = require('./app/models/mailingList');
+var MailingList = require('./app/models/mailingList');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -142,7 +142,7 @@ router.route('/mailingLists')
 .post(function(req, res) {
   console.log(req.body);
 
-  var mailingList = new Event();      // create a new instance of the mailingList model
+  var mailingList = new MailingList();      // create a new instance of the mailingList model
   mailingList.name = req.body.name;  // set the mailingList name (comes from the request)
 
   // save the mailingList and check for errors
@@ -154,7 +154,7 @@ router.route('/mailingLists')
   });
 })
 .get(function(req, res) {
-  Event.find(function(err, mailingList) {
+  MailingList.find(function(err, mailingList) {
     if (err)
       res.send(err);
 
@@ -168,7 +168,7 @@ router.route('/mailingLists/:mailingList_id')
 
 // get the mailingList with that id (accessed at GET http://localhost:8080/api/mailingLists/:mailingList_id)
 .get(function(req, res) {
-  Event.findById(req.params.mailingList_id, function(err, mailingList) {
+  MailingList.findById(req.params.mailingList_id, function(err, mailingList) {
     if (err)
       res.send(err);
     res.json(mailingList);
@@ -179,7 +179,7 @@ router.route('/mailingLists/:mailingList_id')
 .put(function(req, res) {
 
   // use our mailingList model to find the mailingList we want
-  Event.findById(req.params.mailingList_id, function(err, mailingList) {
+  MailingList.findById(req.params.mailingList_id, function(err, mailingList) {
 
     if (err)
       res.send(err);
@@ -199,7 +199,7 @@ router.route('/mailingLists/:mailingList_id')
 
 // delete the mailingList with this id (accessed at DELETE http://localhost:8080/api/mailingLists/:mailingList_id)
 .delete(function(req, res) {
-  Event.remove({
+  MailingList.remove({
     _id: req.params.mailingList_id
   }, function(err, mailingList) {
     if (err)

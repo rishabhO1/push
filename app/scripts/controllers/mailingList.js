@@ -1,37 +1,37 @@
 'use strict';
 
 angular.module('projectApp')
-.controller('mailingListCtrl', function ($scope, $location, storage, mailingList) {
-  Event.query(function(data) {
+.controller('mailingListCtrl', function ($scope, $location, storage, MailingList) {
+  MailingList.query(function(data) {
     $scope.mailingLists = data;
   });
 
   $scope.deletemailingList = function (mailingListId) {
-    Event.delete({ id: mailingListId });
-    Event.query(function(data) {
+    MailingList.delete({ id: mailingListId });
+    MailingList.query(function(data) {
       $scope.mailingLists = data;
     });
   };
 
   $scope.editmailingList = function(mailingList) {
     if (mailingList === 'new') {
-      storage.newEvent = true;
-      storage.editedEvent = {name: ''};
+      storage.newMailingList = true;
+      storage.editedMailingList = {name: ''};
     }
     else {
-      storage.newEvent = false;
-      storage.editedEvent = mailingList;
+      storage.newMailingList = false;
+      storage.editedMailingList = mailingList;
     }
     $location.path('/mailingList/edit');
   };
 })
-.controller('mailingListEditCtrl', function ($scope, $location, storage, mailingList) {
-  $scope.editedEvent = storage.editedEvent;
+.controller('mailingListEditCtrl', function ($scope, $location, storage, MailingList) {
+  $scope.editedMailingList = storage.editedMailingList;
   $scope.save = function(mailingList) {
-    if (storage.newEvent){
-      Event.save(mailingList);
+    if (storage.newMailingList){
+      MailingList.save(mailingList);
     } else {
-      Event.update({id:mailingList._id}, mailingList);
+      MailingList.update({id:mailingList._id}, mailingList);
     }
     $location.path('/mailingList');
   };
