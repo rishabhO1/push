@@ -6,13 +6,14 @@
 // call the packages we need
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');    // call body parser
 
 // getting-started.js
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
 var Event = require('./app/models/event');
+var mailingList = require('./app/models/mailingList');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -122,6 +123,99 @@ router.route('/events/:event_id')
     res.json({ message: 'Successfully deleted' });
   });
 });
+
+
+
+
+
+
+
+
+
+// on routes that end in /mailingLists
+// ----------------------------------------------------
+
+
+router.route('/mailingLists')
+
+// create a mailingList (accessed at POST http://localhost:8080/api/mailingList)
+.post(function(req, res) {
+  console.log(req.body);
+
+  var mailingList = new Event();      // create a new instance of the mailingList model
+  mailingList.name = req.body.name;  // set the mailingList name (comes from the request)
+
+  // save the mailingList and check for errors
+  mailingList.save(function(err) {
+    if (err)
+      res.send(err);
+
+    res.json({ message: 'mailingList created!' });
+  });
+})
+.get(function(req, res) {
+  Event.find(function(err, mailingList) {
+    if (err)
+      res.send(err);
+
+    res.json(mailingLists);
+  });
+});
+
+// on routes that end in /mailingLists/:mailingList_id
+// ----------------------------------------------------
+router.route('/mailingLists/:mailingList_id')
+
+// get the mailingList with that id (accessed at GET http://localhost:8080/api/mailingLists/:mailingList_id)
+.get(function(req, res) {
+  Event.findById(req.params.mailingList_id, function(err, mailingList) {
+    if (err)
+      res.send(err);
+    res.json(mailingList);
+  });
+})
+
+// update the mailingList with this id (accessed at PUT http://localhost:8080/api/mailingLists/:mailingList_id)
+.put(function(req, res) {
+
+  // use our mailingList model to find the mailingList we want
+  Event.findById(req.params.mailingList_id, function(err, mailingList) {
+
+    if (err)
+      res.send(err);
+
+    mailingList.name = req.body.name;  // update the mailingLists info
+
+    // save the mailingList
+    mailingList.save(function(err) {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'mailingList updated!' });
+    });
+
+  });
+})
+
+// delete the mailingList with this id (accessed at DELETE http://localhost:8080/api/mailingLists/:mailingList_id)
+.delete(function(req, res) {
+  Event.remove({
+    _id: req.params.mailingList_id
+  }, function(err, mailingList) {
+    if (err)
+      res.send(err);
+
+    res.json({ message: 'Successfully deleted' });
+  });
+});
+
+
+
+
+
+
+
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

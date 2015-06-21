@@ -20,6 +20,9 @@ angular
   .factory("Event", function($resource) {
     return $resource("http://localhost:8080/api/events/:id", null, { 'update': { method:'PUT' } });
   })
+  .factory("mailingList", function($resource) {
+    return $resource("http://localhost:8080/api/mailingList/:id", null, { 'update': { method:'PUT' } });
+  })
   .factory("storage", function() {
     return {};
   })
@@ -64,6 +67,18 @@ angular
       .when('/register', {
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
+      })
+      .when('/signup', {
+        templateUrl: 'views/signup.html',
+        controller: 'SignupCtrl'
+      })
+      .when('/mailingList', {
+        templateUrl: 'views/mailingList.html',
+        controller: 'mailingListCtrl'
+      })
+      .when('/mailingList/edit', {
+        templateUrl: 'views/mailingListEdit.html',
+        controller: 'mailingListEditCtrl'
       })
 
       .otherwise({
