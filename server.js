@@ -154,7 +154,7 @@ router.route('/mailingLists')
   });
 })
 .get(function(req, res) {
-  MailingList.find(function(err, mailingList) {
+  MailingList.find(function(err, mailingLists) {
     if (err)
       res.send(err);
 
