@@ -143,7 +143,11 @@ router.route('/mailingLists')
   console.log(req.body);
 
   var mailingList = new MailingList();      // create a new instance of the mailingList model
-  mailingList.name = req.body.name;  // set the mailingList name (comes from the request)
+  mailingList.eventName = req.body.eventName;  // set the mailingList data(comes from the request)
+  mailingList.validFrom = req.body.validFrom;
+  mailingList.validTo = req.body.validTo;
+  mailingList.Description = req.body.Description;
+  mailingList.recurrence = req.body.recurrence;
 
   // save the mailingList and check for errors
   mailingList.save(function(err) {
@@ -184,7 +188,11 @@ router.route('/mailingLists/:mailingList_id')
     if (err)
       res.send(err);
 
-    mailingList.name = req.body.name;  // update the mailingLists info
+    mailingList.eventName = req.body.eventName;  // set the mailingList data(comes from the request)
+    mailingList.validFrom = req.body.validFrom;
+    mailingList.validTo = req.body.validTo;
+    mailingList.Description = req.body.Description;
+    mailingList.recurrence = req.body.recurrence;
 
     // save the mailingList
     mailingList.save(function(err) {

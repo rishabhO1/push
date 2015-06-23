@@ -4,7 +4,11 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var mailingListSchema   = new Schema({
-    name: String
+    eventName: String,
+    validFrom: String,
+    validTo: String,
+    Description: String,
+    recurrence: String
 });
 
 module.exports = mongoose.model('mailingList', mailingListSchema);

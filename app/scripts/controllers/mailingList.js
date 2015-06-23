@@ -16,7 +16,6 @@ angular.module('projectApp')
   $scope.editmailingList = function(mailingList) {
     if (mailingList === 'new') {
       storage.newMailingList = true;
-      storage.editedMailingList = {name: ''};
     }
     else {
       storage.newMailingList = false;
@@ -30,7 +29,8 @@ angular.module('projectApp')
   $scope.save = function(mailingList) {
     if (storage.newMailingList){
       MailingList.save(mailingList);
-    } else {
+    } 
+    else {
       MailingList.update({id:mailingList._id}, mailingList);
     }
     $location.path('/mailingLists');
