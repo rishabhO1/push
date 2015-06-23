@@ -22,7 +22,7 @@ angular.module('projectApp')
       storage.newMailingList = false;
       storage.editedMailingList = mailingList;
     }
-    $location.path('/mailingList/edit');
+    $location.path('/mailingLists/edit');
   };
 })
 .controller('mailingListEditCtrl', function ($scope, $location, storage, MailingList) {
@@ -33,9 +33,9 @@ angular.module('projectApp')
     } else {
       MailingList.update({id:mailingList._id}, mailingList);
     }
-    $location.path('/mailingList');
+    $location.path('/mailingLists');
   };
   $scope.back = function(){
-    $location.path('/mailingList');
+    $location.path('/mailingLists');
   }
 });

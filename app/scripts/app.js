@@ -17,13 +17,13 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .factory("Event", function($resource) {
-    return $resource("http://localhost:8080/api/events/:id", null, { 'update': { method:'PUT' } });
+  .factory('Event', function($resource) {
+    return $resource('http://localhost:8080/api/events/:id', null, { 'update': { method:'PUT' } });
   })
-  .factory("mailingList", function($resource) {
-    return $resource("http://localhost:8080/api/mailingList/:id", null, { 'update': { method:'PUT' } });
+  .factory('MailingList', function($resource) {
+    return $resource('http://localhost:8080/api/mailingLists/:id', null, { 'update': { method:'PUT' } });
   })
-  .factory("storage", function() {
+  .factory('storage', function() {
     return {};
   })
   .config(function ($routeProvider) {
@@ -72,12 +72,12 @@ angular
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
       })
-      .when('/mailingList', {
-        templateUrl: 'views/mailingList.html',
+      .when('/mailingLists', {
+        templateUrl: 'views/mailingList/mailingList.html',
         controller: 'mailingListCtrl'
       })
-      .when('/mailingList/edit', {
-        templateUrl: 'views/mailingListEdit.html',
+      .when('/mailingLists/edit', {
+        templateUrl: 'views/mailingList/mailingListEdit.html',
         controller: 'mailingListEditCtrl'
       })
 

@@ -138,7 +138,7 @@ router.route('/events/:event_id')
 
 router.route('/mailingLists')
 
-// create a mailingList (accessed at POST http://localhost:8080/api/mailingList)
+// create a mailingList (accessed at POST http://localhost:8080/api/mailingLists)
 .post(function(req, res) {
   console.log(req.body);
 

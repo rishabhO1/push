@@ -12,8 +12,8 @@
         <tr ng-repeat="mailingList in mailingLists">
           <td>{{mailingList.name}}</td>
           <td>
-            <button type="button" ng-click="editEvent(mailingList)" class="btn btn-primary">Edit</button>
-            <button type="button" ng-click="deleteEvent(mailingList._id)" class="btn btn-default">Delete</button>
+            <button type="button" ng-click="editmailingList(mailingList)" class="btn btn-primary">Edit</button>
+            <button type="button" ng-click="deletemailingList(mailingList._id)" class="btn btn-default">Delete</button>
           </td>
         </tr>
       </tbody>
