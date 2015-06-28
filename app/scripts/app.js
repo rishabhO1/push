@@ -82,15 +82,15 @@ angular
       })
       .when('/academicEvents', {
         templateUrl: 'views/academicEvents.html',
-        controller: 'mailingListCtrl'
+        controller: 'EventsCtrl'
       })
       .when('/clubEvents', {
         templateUrl: 'views/clubEvents.html',
-        controller: 'mailingListCtrl'
+        controller: 'EventsCtrl'
       })
       .when('/hostelEvents', {
         templateUrl: 'views/hostelEvents.html',
-        controller: 'mailingListCtrl'
+        controller: 'EventsCtrl'
       })
 
       .otherwise({

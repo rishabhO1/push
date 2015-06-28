@@ -3,8 +3,10 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var EventSchema   = new Schema({
-    name: String
+var eventSchema   = new Schema({
+    eventName: String,
+    Description: String,
+    eventListName: String
 });
 
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('event', eventSchema);

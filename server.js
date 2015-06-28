@@ -62,7 +62,9 @@ router.route('/events')
         console.log(req.body);
 
         var event = new Event(); // create a new instance of the Event model
-        event.name = req.body.name; // set the events name (comes from the request)
+        event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Description = req.body.Description;
+        event.eventListName = req.body.eventListName; 
 
         // save the event and check for errors
         event.save(function(err) {
@@ -105,7 +107,9 @@ router.route('/events/:event_id')
         if (err)
             res.send(err);
 
-        event.name = req.body.name; // update the events info
+        event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Description = req.body.Description;
+        event.eventListName = req.body.eventListName;  // update the events info
 
         // save the event
         event.save(function(err) {
@@ -153,17 +157,7 @@ router.route('/mailingLists')
         console.log(req.body);
 
         var mailingList = new MailingList(); // create a new instance of the mailingList model
-        mailingList.eventName = req.body.eventName; // set the mailingList data(comes from the request)
-        mailingList.validFrom.Hours = req.body.validFrom.Hours;
-        mailingList.validFrom.Minutes = req.body.validFrom.Minutes;
-        mailingList.validFrom.Tag = req.body.validFrom.Tag;
-        mailingList.validTo.Hours = req.body.validTo.Hours;
-        mailingList.validTo.Minutes = req.body.validTo.Minutes;
-        mailingList.validTo.Tag = req.body.validTo.Tag;
-        mailingList.Description = req.body.Description;
-        mailingList.recurrence.Period = req.body.recurrence.Period;
-        mailingList.recurrence.Frequency = req.body.recurrence.Frequency;
-        mailingList.mailingListName = req.body.mailingListName;
+        mailingList.name = req.body.name;
 
         // save the mailingList and check for errors
         mailingList.save(function(err) {
@@ -206,17 +200,7 @@ router.route('/mailingLists/:mailingList_id')
         if (err)
             res.send(err);
 
-        mailingList.eventName = req.body.eventName; // set the mailingList data(comes from the request)
-        mailingList.validFrom.Hours = req.body.validFrom.Hours;
-        mailingList.validFrom.Minutes = req.body.validFrom.Minutes;
-        mailingList.validFrom.Tag = req.body.validFrom.Tag;
-        mailingList.validTo.Hours = req.body.validTo.Hours;
-        mailingList.validTo.Minutes = req.body.validTo.Minutes;
-        mailingList.validTo.Tag = req.body.validTo.Tag;
-        mailingList.Description = req.body.Description;
-        mailingList.recurrence.Period = req.body.recurrence.Period;
-        mailingList.recurrence.Frequency = req.body.recurrence.Frequency;
-        mailingList.mailingListName = req.body.mailingListName;
+        mailingList.name = req.body.name;
 
         // save the mailingList
         mailingList.save(function(err) {
@@ -264,17 +248,9 @@ router.route('/academicEvents')
         console.log(req.body);
 
         var mailingList = new MailingList(); // create a new instance of the mailingList model
-        mailingList.eventName = req.body.eventName; // set the mailingList data(comes from the request)
-        mailingList.validFrom.Hours = req.body.validFrom.Hours;
-        mailingList.validFrom.Minutes = req.body.validFrom.Minutes;
-        mailingList.validFrom.Tag = req.body.validFrom.Tag;
-        mailingList.validTo.Hours = req.body.validTo.Hours;
-        mailingList.validTo.Minutes = req.body.validTo.Minutes;
-        mailingList.validTo.Tag = req.body.validTo.Tag;
-        mailingList.Description = req.body.Description;
-        mailingList.recurrence.Period = req.body.recurrence.Period;
-        mailingList.recurrence.Frequency = req.body.recurrence.Frequency;
-        mailingList.mailingListName = req.body.mailingListName;
+        event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Description = req.body.Description;
+        event.eventListName = req.body.eventListName;
 
         // save the mailingList and check for errors
         mailingList.save(function(err) {
@@ -314,17 +290,9 @@ router.route('/clubEvents')
         console.log(req.body);
 
         var mailingList = new MailingList(); // create a new instance of the mailingList model
-        mailingList.eventName = req.body.eventName; // set the mailingList data(comes from the request)
-        mailingList.validFrom.Hours = req.body.validFrom.Hours;
-        mailingList.validFrom.Minutes = req.body.validFrom.Minutes;
-        mailingList.validFrom.Tag = req.body.validFrom.Tag;
-        mailingList.validTo.Hours = req.body.validTo.Hours;
-        mailingList.validTo.Minutes = req.body.validTo.Minutes;
-        mailingList.validTo.Tag = req.body.validTo.Tag;
-        mailingList.Description = req.body.Description;
-        mailingList.recurrence.Period = req.body.recurrence.Period;
-        mailingList.recurrence.Frequency = req.body.recurrence.Frequency;
-        mailingList.mailingListName = req.body.mailingListName;
+        event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Description = req.body.Description;
+        event.eventListName = req.body.eventListName;
         // save the mailingList and check for errors
         mailingList.save(function(err) {
             if (err)
@@ -363,17 +331,9 @@ router.route('/hostelEvents')
         console.log(req.body);
 
         var mailingList = new MailingList(); // create a new instance of the mailingList model
-        mailingList.eventName = req.body.eventName; // set the mailingList data(comes from the request)
-        mailingList.validFrom.Hours = req.body.validFrom.Hours;
-        mailingList.validFrom.Minutes = req.body.validFrom.Minutes;
-        mailingList.validFrom.Tag = req.body.validFrom.Tag;
-        mailingList.validTo.Hours = req.body.validTo.Hours;
-        mailingList.validTo.Minutes = req.body.validTo.Minutes;
-        mailingList.validTo.Tag = req.body.validTo.Tag;
-        mailingList.Description = req.body.Description;
-        mailingList.recurrence.Period = req.body.recurrence.Period;
-        mailingList.recurrence.Frequency = req.body.recurrence.Frequency;
-        mailingList.mailingListName = req.body.mailingListName;
+        event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Description = req.body.Description;
+        event.eventListName = req.body.eventListName;
 
         // save the mailingList and check for errors
         mailingList.save(function(err) {
