@@ -1,0 +1,32 @@
+<body>
+    <h3>Academic Events</h3>
+    <label>&nbsp;</label>
+    <div class="panel panel-default">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Event name</th>
+                    <th>Valid from</th>
+                    <th>Valid to</th>
+                    <th>Description</th>
+                    <th>Recurrence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="mailingList in mailingLists | filter : mailingListName='academicEvents'">
+                    <td>{{mailingList.eventName}}</td>
+                    <td>{{mailingList.validFrom.Hours}}:{{mailingList.validFrom.Minutes}} {{mailingList.validFrom.Tag}}</td>
+                    <td>{{mailingList.validTo.Hours}}:{{mailingList.validTo.Minutes}} {{mailingList.validTo.Tag}}</td>
+                    <td>{{mailingList.Description}}</td>
+                    <td>{{mailingList.recurrence.Period}}:{{mailingList.recurrence.Frequency}}</td>
+                    <td>
+                        <button type="button" ng-click="editmailingList(mailingList, 'academicEvents')" class="btn btn-primary">Edit</button>
+                        <button type="button" ng-click="deletemailingList(mailingList._id)" class="btn btn-default">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="button" ng-click="editmailingList('new', 'academicEvents')" class="btn btn-primary">Add new</button>
+    <p>&nbsp;</p>
+</body>

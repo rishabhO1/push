@@ -5,10 +5,22 @@ var Schema       = mongoose.Schema;
 
 var mailingListSchema   = new Schema({
     eventName: String,
-    validFrom: String,
-    validTo: String,
+    validFrom: {
+        Hours: String,
+        Minutes: String,
+        Tag: String
+    },
+    validTo: {
+        Hours: String,
+        Minutes: String,
+        Tag: String
+    },
     Description: String,
-    recurrence: String
+    recurrence: {
+        Period: String,
+        Frequency: String
+    },
+    mailingListName: String
 });
 
 module.exports = mongoose.model('mailingList', mailingListSchema);

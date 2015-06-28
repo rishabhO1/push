@@ -13,7 +13,7 @@ angular.module('projectApp')
     });
   };
 
-  $scope.editmailingList = function(mailingList) {
+  $scope.editmailingList = function(mailingList, mailingList.mailingListName) {
     if (mailingList === 'new') {
       storage.newMailingList = true;
     }
@@ -26,7 +26,7 @@ angular.module('projectApp')
 })
 .controller('mailingListEditCtrl', function ($scope, $location, storage, MailingList) {
   $scope.editedMailingList = storage.editedMailingList;
-  $scope.save = function(mailingList) {
+  $scope.save = function(mailingList, mailingList.mailingListName) {
     if (storage.newMailingList){
       MailingList.save(mailingList);
     } 

@@ -1,5 +1,5 @@
 <body>
-    <h3>Main Mailing List</h3>
+    <h3>Club Events</h3>
     <label>&nbsp;</label>
     <div class="panel panel-default">
         <table class="table table-hover">
@@ -10,18 +10,15 @@
                     <th>Valid to</th>
                     <th>Description</th>
                     <th>Recurrence</th>
-                    <th>Mailing List Name</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="mailingList in mailingLists">
+                <tr ng-repeat="mailingList in mailingLists  | filter : mailingListName='clubEvents'">
                     <td>{{mailingList.eventName}}</td>
-                    <td>{{mailingList.validFromHours}}:{{mailingList.validFromMinutes}} {{mailingList.validFromTag}}</td>
-                    <td>{{mailingList.validToHours}}:{{mailingList.validToMinutes}} {{mailingList.validToTag}}</td>
+                    <td>{{mailingList.validFrom.Hours}}:{{mailingList.validFrom.Minutes}} {{mailingList.validFrom.Tag}}</td>
+                    <td>{{mailingList.validTo.Hours}}:{{mailingList.validTo.Minutes}} {{mailingList.validTo.Tag}}</td>
                     <td>{{mailingList.Description}}</td>
-                    <td>{{mailingList.recurrencePeriod}}</td>
-                    <td>{{mailingList.recurrenceFrequency}}</td>
-                    <td>{{mailingList.mailingListName}}</td>
+                    <td>{{mailingList.recurrence.Period}}:{{mailingList.recurrence.Frequency}}</td>
                     <td>
                         <button type="button" ng-click="editmailingList(mailingList)" class="btn btn-primary">Edit</button>
                         <button type="button" ng-click="deletemailingList(mailingList._id)" class="btn btn-default">Delete</button>
@@ -33,4 +30,3 @@
     <button type="button" ng-click="editmailingList('new')" class="btn btn-primary">Add new</button>
     <p>&nbsp;</p>
 </body>
-mohini devi institute of management and technology, roorkee-12061

@@ -80,6 +80,18 @@ angular
         templateUrl: 'views/mailingList/mailingListEdit.html',
         controller: 'mailingListEditCtrl'
       })
+      .when('/academicEvents', {
+        templateUrl: 'views/academicEvents.html',
+        controller: 'mailingListCtrl'
+      })
+      .when('/clubEvents', {
+        templateUrl: 'views/clubEvents.html',
+        controller: 'mailingListCtrl'
+      })
+      .when('/hostelEvents', {
+        templateUrl: 'views/hostelEvents.html',
+        controller: 'mailingListCtrl'
+      })
 
       .otherwise({
         redirectTo: '/'
