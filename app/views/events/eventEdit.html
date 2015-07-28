@@ -5,6 +5,7 @@
         <table class="table table-hover">
             <tr>
                 <th>Event name</th>
+                <th>Occurence Time</th>
                 <th>Valid from</th>
                 <th>Valid to</th>
                 <th>Description</th>
@@ -15,10 +16,13 @@
                     <input type="text" class="form-control" id="eventName" placeholder="Enter Event Name" ng-model="editedEvent.eventName">
                 </td>
                 <td>
-                    validFrom
+                    <input type="text" size="12" class="form-control" ng-model="editedEvent.Time" data-time-format="h:mm:ss a" data-autoclose="1" placeholder="Notification Time" bs-timepicker>
                 </td>
                 <td>
-                    validTo
+                    <input type="text" size="10" class="form-control" ng-model="editedEvent.validFrom" data-autoclose="1" placeholder="valid from Date" id="validFrom" bs-datepicker>
+                </td>
+                <td>
+                    <input type="text" size="10" class="form-control" ng-model="editedEvent.validTo" data-autoclose="1" placeholder="valid to Date" id="validTo" bs-datepicker>
                 </td>
                 <td>
                     <input type="text" class="form-control" id="Description" placeholder="Enter Event description" ng-model="editedEvent.Description">

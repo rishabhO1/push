@@ -5,6 +5,9 @@ var Schema       = mongoose.Schema;
 
 var eventSchema   = new Schema({
     eventName: String,
+    Time: String,
+    validFrom: String,
+    validTo: String, 
     Description: String,
     eventListName: String
 });

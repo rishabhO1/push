@@ -63,6 +63,9 @@ router.route('/events')
 
         var event = new Event(); // create a new instance of the Event model
         event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Time = req.body.Time;
+        event.validFrom = req.body.validFrom;
+        event.validTo = req.body.validTo;
         event.Description = req.body.Description;
         event.eventListName = req.body.eventListName; 
 
@@ -108,6 +111,9 @@ router.route('/events/:event_id')
             res.send(err);
 
         event.eventName = req.body.eventName; // set the events name (comes from the request)
+        event.Time = req.body.Time;
+        event.validFrom = req.body.validFrom;
+        event.validTo = req.body.validTo;
         event.Description = req.body.Description;
         event.eventListName = req.body.eventListName;  // update the events info
 

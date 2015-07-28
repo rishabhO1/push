@@ -6,6 +6,7 @@
             <thead>
                 <tr>
                     <th>Event name</th>
+                    <th>Occurence Time</th>
                     <th>Valid from</th>
                     <th>Valid to</th>
                     <th>Description</th>
@@ -16,8 +17,9 @@
             <tbody>
                 <tr ng-repeat="event in events">
                     <td>{{event.eventName}}</td>
-                    <td>validFrom</td>
-                    <td>validTo</td>
+                    <td>{{event.Time}}</td>
+                    <td>{{event.validFrom}}</td>
+                    <td>{{event.validTo}}</td>
                     <td>{{event.Description}}</td>
                     <td>recurrence</td>
                     <td>{{event.eventListName}}</td>

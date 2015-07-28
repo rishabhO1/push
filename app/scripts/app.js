@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mgcrea.ngStrap'
   ])
   .factory('Event', function($resource) {
     return $resource('http://localhost:8080/api/events/:id', null, { 'update': { method:'PUT' } });
@@ -38,23 +39,23 @@ angular
       })
       .when('/class', {
         templateUrl: 'views/academic.html',
-        controller: 'AcademicCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/hostel', {
         templateUrl: 'views/hostel.html',
-        controller: 'HostelCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/clubs', {
         templateUrl: 'views/clubs.html',
-        controller: 'ClubsCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/contact', {
         templateUrl: 'views/contact.html',
-        controller: 'ContactCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/event/edit', {
         templateUrl: 'views/events/eventEdit.html',
@@ -66,11 +67,11 @@ angular
       })
       .when('/register', {
         templateUrl: 'views/register.html',
-        controller: 'RegisterCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
-        controller: 'SignupCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/mailingLists', {
         templateUrl: 'views/mailingList/mailingList.html',
@@ -82,15 +83,15 @@ angular
       })
       .when('/academicEvents', {
         templateUrl: 'views/academicEvents.html',
-        controller: 'EventsCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/clubEvents', {
         templateUrl: 'views/clubEvents.html',
-        controller: 'EventsCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/hostelEvents', {
         templateUrl: 'views/hostelEvents.html',
-        controller: 'EventsCtrl'
+        controller: 'AboutCtrl'
       })
 
       .otherwise({
