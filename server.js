@@ -64,8 +64,8 @@ router.route('/events')
         var event = new Event(); // create a new instance of the Event model
         event.eventName = req.body.eventName; // set the events name (comes from the request)
         event.Time = req.body.Time;
-        event.validFrom = req.body.validFrom;
-        event.validTo = req.body.validTo;
+        event.fromDate = req.body.fromDate;
+        event.untilDate = req.body.untilDate;
         event.Description = req.body.Description;
         event.eventListName = req.body.eventListName; 
 
@@ -112,10 +112,10 @@ router.route('/events/:event_id')
 
         event.eventName = req.body.eventName; // set the events name (comes from the request)
         event.Time = req.body.Time;
-        event.validFrom = req.body.validFrom;
-        event.validTo = req.body.validTo;
+        event.fromDate = req.body.fromDate;
+        event.untilDate = req.body.untilDate;
         event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName;  // update the events info
+        event.eventListName = req.body.eventListName;   // update the events info
 
         // save the event
         event.save(function(err) {
@@ -234,138 +234,6 @@ router.route('/mailingLists/:mailingList_id')
         });
     });
 });
-
-
-
-
-
-
-
-
-
-// on routes that end in /academicEvents
-// ----------------------------------------------------
-
-
-router.route('/academicEvents')
-
-// create a mailingList (accessed at POST http://localhost:8080/api/mailingLists)
-.post(function(req, res) {
-        console.log(req.body);
-
-        var mailingList = new MailingList(); // create a new instance of the mailingList model
-        event.eventName = req.body.eventName; // set the events name (comes from the request)
-        event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName;
-
-        // save the mailingList and check for errors
-        mailingList.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({
-                message: 'Academic Event created!'
-            });
-        });
-    })
-    .get(function(req, res) {
-        MailingList.find(function(err, mailingLists) {
-            if (err)
-                res.send(err);
-
-            res.json(mailingLists);
-        });
-    });
-
-
-
-
-
-
-
-
-
-// on routes that end in /academicEvents
-// ----------------------------------------------------
-
-
-router.route('/clubEvents')
-
-// create a mailingList (accessed at POST http://localhost:8080/api/mailingLists)
-.post(function(req, res) {
-        console.log(req.body);
-
-        var mailingList = new MailingList(); // create a new instance of the mailingList model
-        event.eventName = req.body.eventName; // set the events name (comes from the request)
-        event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName;
-        // save the mailingList and check for errors
-        mailingList.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({
-                message: 'Club Event created!'
-            });
-        });
-    })
-    .get(function(req, res) {
-        MailingList.find(function(err, mailingLists) {
-            if (err)
-                res.send(err);
-
-            res.json(mailingLists);
-        });
-    });
-
-
-
-
-
-
-
-
-
-// on routes that end in /academicEvents
-// ----------------------------------------------------
-
-
-router.route('/hostelEvents')
-
-// create a mailingList (accessed at POST http://localhost:8080/api/mailingLists)
-.post(function(req, res) {
-        console.log(req.body);
-
-        var mailingList = new MailingList(); // create a new instance of the mailingList model
-        event.eventName = req.body.eventName; // set the events name (comes from the request)
-        event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName;
-
-        // save the mailingList and check for errors
-        mailingList.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({
-                message: 'Hostel Event created!'
-            });
-        });
-    })
-    .get(function(req, res) {
-        MailingList.find(function(err, mailingLists) {
-            if (err)
-                res.send(err);
-
-            res.json(mailingLists);
-        });
-    });
-
-
-
-
-
-
-
 
 
 // REGISTER OUR ROUTES -------------------------------

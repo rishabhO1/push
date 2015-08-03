@@ -18,11 +18,11 @@
                 <tr ng-repeat="event in events">
                     <td>{{event.eventName}}</td>
                     <td>{{event.Time}}</td>
-                    <td>{{event.validFrom}}</td>
-                    <td>{{event.validTo}}</td>
+                    <td>{{event.fromDate}}</td>
+                    <td>{{event.untilDate}}</td>
                     <td>{{event.Description}}</td>
                     <td>recurrence</td>
-                    <td>{{event.eventListName}}</td>
+                    <td>{{event.mailingListName}}</td>
                     <td>
                         <button type="button" ng-click="editEvent(event)" class="btn btn-primary">Edit</button>
                         <button type="button" ng-click="deleteEvent(event._id)" class="btn btn-default">Delete</button>
