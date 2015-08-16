@@ -4,9 +4,54 @@
 // =============================================================================
 
 // call the packages we need
-var express = require('express'); // call express
+
+var express = require('express'),
+    exphbs = require('express-handlebars'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
+    session = require('express-session'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local'),
+    TwitterStrategy = require('passport-twitter'),
+    GoogleStrategy = require('passport-google'),
+    FacebookStrategy = require('passport-facebook');
+
 var app = express(); // define our app using express
-var bodyParser = require('body-parser'); // call body parser
+app.use(logger('combined'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Configure express to use handlebars templates
+var hbs = exphbs.create({
+    defaultLayout: 'main', //we will be creating this layout shortly
+});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+// Session-persisted message middleware
+app.use(function(req, res, next){
+  var err = req.session.error,
+      msg = req.session.notice,
+      success = req.session.success;
+
+  delete req.session.error;
+  delete req.session.success;
+  delete req.session.notice;
+
+  if (err) res.locals.error = err;
+  if (msg) res.locals.notice = msg;
+  if (success) res.locals.success = success;
+
+  next();
+});
 
 // getting-started.js
 var mongoose = require('mongoose');
@@ -27,6 +72,9 @@ var port = process.env.PORT || 8080; // set our port
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router(); // get an instance of the express Router
+
+
+
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -239,6 +287,9 @@ router.route('/mailingLists/:mailingList_id')
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                                    failureRedirect: '/login' }));
 
 // START THE SERVER
 // =============================================================================
