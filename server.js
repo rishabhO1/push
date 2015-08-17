@@ -67,7 +67,8 @@ router.route('/events')
         event.fromDate = req.body.fromDate;
         event.untilDate = req.body.untilDate;
         event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName; 
+        event.recurrence = req.body.recurrence;
+        event.eventListName = req.body.mailingListName; 
 
         // save the event and check for errors
         event.save(function(err) {
@@ -115,7 +116,8 @@ router.route('/events/:event_id')
         event.fromDate = req.body.fromDate;
         event.untilDate = req.body.untilDate;
         event.Description = req.body.Description;
-        event.eventListName = req.body.eventListName;   // update the events info
+        event.recurrence = req.body.recurrence;
+        event.eventListName = req.body.mailingListName;   // update the events info
 
         // save the event
         event.save(function(err) {
