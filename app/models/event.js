@@ -5,9 +5,9 @@ var Schema       = mongoose.Schema;
 
 var eventSchema   = new Schema({
     eventName: String,
-    Time: Date,
-    fromDate: Date,
-    untilDate: Date, 
+    Time: String,
+    fromDate: String,
+    untilDate: String, 
     Description: String,
     mailingListName: String
 });

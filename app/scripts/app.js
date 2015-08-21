@@ -55,7 +55,7 @@ angular
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'AboutCtrl'
+        controller: 'LoginCtrl'
       })
       .when('/event/edit', {
         templateUrl: 'views/events/eventEdit.html',
@@ -67,7 +67,7 @@ angular
       })
       .when('/register', {
         templateUrl: 'views/register.html',
-        controller: 'AboutCtrl'
+        controller: 'RegisterCtrl'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',

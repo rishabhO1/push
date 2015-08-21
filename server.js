@@ -145,6 +145,14 @@ router.use(function(req, res, next) {
   next(); // make sure we go to the next routes and don't stop here
 });
 
+// As with any middleware it is quintessential to call next()
+// if the user is authenticated
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
+
 /* GET login page. */
 router.get('/', function(req, res) {
   // Display the Login page with any flash message, if any
@@ -177,18 +185,9 @@ router.get('/signout', function(req, res) {
 });
 
 /* GET Home Page */
-/*
 router.get('/home', isAuthenticated, function(req, res){
   res.render('home', { user: req.user });
-});*/
- 
-// As with any middleware it is quintessential to call next()
-// if the user is authenticated
-var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.redirect('/');
-}
+});
 
 
 
@@ -213,7 +212,7 @@ router.route('/events')
   event.untilDate = req.body.untilDate;
   event.Description = req.body.Description;
   event.recurrence = req.body.recurrence;
-  event.eventListName = req.body.mailingListName;
+  event.mailingListName = req.body.mailingListName;
 
   // save the event and check for errors
   event.save(function(err) {
@@ -262,7 +261,7 @@ router.route('/events/:event_id')
     event.untilDate = req.body.untilDate;
     event.Description = req.body.Description;
     event.recurrence = req.body.recurrence;
-    event.eventListName = req.body.mailingListName;   // update the events info
+    event.mailingListName = req.body.mailingListName;   // update the events info
 
     // save the event
     event.save(function(err) {

@@ -1,7 +1,19 @@
 'use strict';
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, storage, Event) {
+    .controller('EventCtrl', function($scope, $location, $http, storage, Event) {
+        $scope.selectedMailingListName = null;
+        $scope.mailingListsName = [];
+
+        $http({
+            method: 'GET',
+            url: '/mailingLists',
+            data: {
+                applicationId: 3
+            }
+        }).success(function(result) {
+            $scope.mailingListsName = result;
+        });
         Event.query(function(data) {
             $scope.events = data;
         });

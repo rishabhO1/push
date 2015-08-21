@@ -17,7 +17,7 @@
                     <input type="text" class="form-control" id="eventName" placeholder="Enter Event Name" ng-model="editedEvent.eventName">
                 </td>
                 <td>
-                    <input type="text" class="form-control" size="8" ng-model="editedEvent.Time" name="Time" placeholder="Notification Time" data-autoclose="0"  data-time-format="h:mm:ss a" data-length="1" data-minute-step="1" data-arrow-behavior="picker" bs-timepicker>
+                    <input type="text" class="form-control" size="8" ng-model="editedEvent.Time" name="Time" placeholder="Notification Time" data-autoclose="0" data-time-format="h:mm:ss a" data-length="1" data-minute-step="1" data-arrow-behavior="picker" bs-timepicker>
                 </td>
                 <td>
                     <input type="text" size="10" class="form-control" ng-model="editedEvent.fromDate" data-max-date="{{editedEvent.untilDate}}" data-autoclose="1" placeholder="valid From Date" id="fromDate" bs-datepicker>
@@ -32,7 +32,8 @@
                     recurrence
                 </td>
                 <td>
-                    <select>
+                    <select ng-model="selectedMailingListName" name="selectedMailingListName">
+                        <option ng:repeat="item in mailingListsName">{{item.name}}</option>
                     </select>
                 </td>
             </tr>
