@@ -17,11 +17,11 @@
             <tbody>
                 <tr ng-repeat="event in events">
                     <td>{{event.eventName}}</td>
-                    <td>{{event.Time | date: 'HH:mm:ss'}}</td>
+                    <td>{{event.Time | date: 'HH:mm:ss a'}}</td>
                     <td>{{event.fromDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{event.untilDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{event.Description}}</td>
-                    <td>{{event.recurrence}}</td>
+                    <td>{{event.recurrence}}v2</td>
                     <td>{{event.mailingListName}}</td>
                     <td>
                         <button type="button" ng-click="editEvent(event)" class="btn btn-primary">Edit</button>

@@ -1,10 +1,10 @@
 # Project
 
-This project is made using MEAN Stack
+This project is uses Node.js for maintaining server-side code, AngularJS for client-side code alongwith ExpressJS framework and MongoDB to maintain database.
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `grunt` for building and `grunt serve` and 'node server.js' for preview.
 
 ## Testing
 

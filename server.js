@@ -14,6 +14,7 @@ mongoose.connect('mongodb://localhost/test');
 
 var Event = require('./app/models/event');
 var MailingList = require('./app/models/mailingList');
+var user = require('./app/models/user');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
