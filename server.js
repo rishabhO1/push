@@ -4,9 +4,11 @@
 // =============================================================================
 
 // call the packages we need
+var flash = require('connect-flash');
 var express = require('express'); // call express
 var app = express(); // define our app using express
 var bodyParser = require('body-parser'); // call body parser
+var bCrypt = require('bcrypt-nodejs'); // call body parser
 
 // getting-started.js
 var mongoose = require('mongoose');
@@ -14,7 +16,7 @@ mongoose.connect('mongodb://localhost/test');
 
 var Event = require('./app/models/event');
 var MailingList = require('./app/models/mailingList');
-var user = require('./app/models/user');
+var User = require('./app/models/user');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -30,8 +32,10 @@ var passport = require('passport');
 var expressSession = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 app.use(expressSession({secret: 'mySecretKey',  resave: true, saveUninitialized: true }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.set('view engine', 'jade');
 
 passport.serializeUser(function(user, done) {
   done(null, user._id);
@@ -161,23 +165,37 @@ router.get('/', function(req, res) {
 });
 
 /* Handle Login POST */
-router.post('/login', passport.authenticate('login', {
-  successRedirect: '/home',
-  failureRedirect: '/',
-  failureFlash : true
-}));
+
+router.post('/login', function(req, res, next) {
+  passport.authenticate('login', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting signup
+    if (! user) {
+      return res.send({ success : false, message : 'login failed' });
+    }
+    return res.send({ success : true, message : 'login succeeded' });
+  })(req, res, next);
+});
 
 /* GET Registration Page */
 router.get('/signup', function(req, res){
   res.render('register',{message: req.flash('message')});
 });
 
-/* Handle Registration POST */
-router.post('/signup', passport.authenticate('signup', {
-  successRedirect: '/home',
-  failureRedirect: '/signup',
-  failureFlash : true
-}));
+router.post('/signup', function(req, res, next) {
+  passport.authenticate('signup', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting signup
+    if (! user) {
+      return res.send({ success : false, message : 'signup failed' });
+    }
+    return res.send({ success : true, message : 'signup succeeded' });
+  })(req, res, next);
+});
 
 /* Handle Logout */
 router.get('/signout', function(req, res) {

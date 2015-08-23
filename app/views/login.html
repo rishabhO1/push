@@ -1,13 +1,13 @@
 <body>
     <div class="jumbotron">
         <h1>Sign in!</h1>
-        <form method="post" action="#/login" name="aform" target="_top">
+        <form ng-submit="submit()">
             <ul>
                 <input type="hidden" name="action" value="login">
                 <!-- <input type="hidden" name="hide" value=""> -->
-                <input type="text" name="login" placeholder="Username" class="form-control" autofocus="on">
+                <input type="text" ng-model='username' name="username" placeholder="Username" class="form-control" autofocus="on">
                 <label>&nbsp; </label>
-                <input type="password" name="password" placeholder="Password" class="form-control" autofocus="on">
+                <input type="password" ng-model='password' name="password" placeholder="Password" class="form-control" autofocus="on">
             </ul>
             <label>&nbsp; </label>
             <button class="btn btn-success btn-block" type="submit">Sign in</button>

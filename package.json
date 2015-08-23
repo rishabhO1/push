@@ -7,7 +7,10 @@
     "express-session": "^1.11.3",
     "mongoose": "^3.8.23",
     "passport": "^0.2.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "connect-flash": "^0.1.1",
+    "jade": "^1.11.0",
+    "bcrypt-nodejs": "0.0.3"
   },
   "repository": {},
   "devDependencies": {

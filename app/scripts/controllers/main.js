@@ -15,44 +15,17 @@ angular.module('projectApp')
       'Karma'
     ];
   })
-  .controller('LoginCtrl', function($scope, $location, storage, Event) {
-        Event.query(function(data) {
-            $scope.events = data;
-        });
-
-        $scope.deleteEvent = function(eventId) {
-            Event.delete({
-                id: eventId
-            });
-            Event.query(function(data) {
-                $scope.events = data;
-            });
-        };
-
-        $scope.editEvent = function(event) {
-            if (event === 'new') {
-                storage.newEvent = true;
-            } else {
-                storage.newEvent = false;
-                storage.editedEvent = event;
+  .controller('LoginCtrl', function($scope, $location, storage, Event, $http) {
+    $scope.test='waa'
+        $scope.submit = function() {
+          console.log('testing');
+          $http.post('http://localhost:8080/api/login', {username: $scope.username, password: $scope.password}).then(
+            function(response) {
+              console.log(response);
+            }, function (response) {
+              console.log("error");
             }
-            $location.path('/event/edit');
-        };
-    })
-    .controller('RegisterCtrl', function($scope, $location, storage, Event) {
-        $scope.editedEvent = storage.editedEvent;
-        $scope.save = function(event) {
-            if (storage.newEvent) {
-                Event.save(event);
-            } else {
-                Event.update({
-                    id: event._id
-                }, event);
-            }
-            $location.path('/event');
-        };
-        $scope.back = function() {
-            $location.path('/event');
+          )
         }
     });
 
