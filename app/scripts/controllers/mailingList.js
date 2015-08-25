@@ -1,5 +1,13 @@
 'use strict';
 
+/**
+ * @ngdoc function
+ * @name projectApp.controller:MailingListCtrl
+ * @description
+ * # MailingListCtrl
+ * Controller of the projectApp
+ */
+
 angular.module('projectApp')
     .controller('mailingListCtrl', function($scope, $location, storage, MailingList) {
         MailingList.query(function(data) {

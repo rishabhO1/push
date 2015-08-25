@@ -1,13 +1,12 @@
 <body>
     <div class="jumbotron">
         <h1>Sign in!</h1>
-        <form ng-submit="submit()">
+        <iframe src="sink.html" name="sink" style="display:none"></iframe>
+        <form name="loginForm" action="sink.html" target="sink" method="post" ng-controller="LoginCtrl" ng-submit="login(credentials)" novalidate form-autofill-fix>
             <ul>
-                <input type="hidden" name="action" value="login">
-                <!-- <input type="hidden" name="hide" value=""> -->
-                <input type="text" ng-model='username' name="username" placeholder="Username" class="form-control" autofocus="on">
+                <input type="text" ng-model='credentials.username' name="username" placeholder="Username" class="form-control" autofocus="on">
                 <label>&nbsp; </label>
-                <input type="password" ng-model='password' name="password" placeholder="Password" class="form-control" autofocus="on">
+                <input type="password" ng-model='credentials.password' name="password" placeholder="Password" class="form-control" autofocus="on">
             </ul>
             <label>&nbsp; </label>
             <button class="btn btn-success btn-block" type="submit">Sign in</button>

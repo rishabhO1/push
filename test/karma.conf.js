@@ -35,6 +35,7 @@ module.exports = function(config) {
       'bower_components/bootstrap3-timepicker2/js/bootstrap-timepicker.min.js',
       'bower_components/angular-strap/dist/angular-strap.js',
       'bower_components/angular-strap/dist/angular-strap.tpl.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

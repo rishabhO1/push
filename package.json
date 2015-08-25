@@ -2,15 +2,16 @@
   "name": "project",
   "version": "0.0.0",
   "dependencies": {
+    "angular-ui-router": "^0.2.15",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.4",
+    "connect-flash": "^0.1.1",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
+    "jade": "^1.11.0",
     "mongoose": "^3.8.23",
     "passport": "^0.2.2",
-    "passport-local": "^1.0.0",
-    "connect-flash": "^0.1.1",
-    "jade": "^1.11.0",
-    "bcrypt-nodejs": "0.0.3"
+    "passport-local": "^1.0.0"
   },
   "repository": {},
   "devDependencies": {

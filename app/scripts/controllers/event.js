@@ -1,5 +1,13 @@
 'use strict';
 
+/**
+ * @ngdoc function
+ * @name projectApp.controller:EventCtrl
+ * @description
+ * # EventCtrl
+ * Controller of the projectApp
+ */
+
 angular.module('projectApp')
     .controller('EventCtrl', function($scope, $location, $http, storage, Event) {
         $scope.selectedMailingListName = null;
