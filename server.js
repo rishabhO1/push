@@ -3,20 +3,30 @@
 // BASE SETUP
 // =============================================================================
 
-// call the packages we need
-var flash = require('connect-flash');
-var express = require('express'); // call express
-var app = express(); // define our app using express
-var bodyParser = require('body-parser'); // call body parser
-var bCrypt = require('bcrypt-nodejs'); // call body parser
+var port = process.env.PORT || 8080; // set our port
 
-// getting-started.js
+// Connecting MongoDB using mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
+// call the packages we need
+var flash = require('connect-flash');
+var express = require('express'); // call express
+var bodyParser = require('body-parser'); // call body parser
+var bCrypt = require('bcrypt-nodejs'); // call bcrypt
+
+var app = express(); // define our app using express
 var Event = require('./app/models/event');
 var MailingList = require('./app/models/mailingList');
 var User = require('./app/models/user');
+// Validates password using bCrypt hash
+var isValidPassword = function(user, password) {
+        return bCrypt.compareSync(password, user.password);
+    }
+    // Generates hash using bCrypt
+var createHash = function(password) {
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -24,8 +34,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-
-var port = process.env.PORT || 8080; // set our port
 
 // Configuring Passport
 var passport = require('passport');
@@ -83,10 +91,7 @@ passport.use('login', new LocalStrategy({
         );
     }));
 
-var isValidPassword = function(user, password) {
-    return bCrypt.compareSync(password, user.password);
-}
-
+// passport/signup.js
 passport.use('signup', new LocalStrategy({
         passReqToCallback: true
     },
@@ -111,11 +116,10 @@ passport.use('signup', new LocalStrategy({
                     // create the user
                     var newUser = new User();
                     // set the user's local credentials
-                    newUser.username = username;
-                    newUser.password = createHash(password);
-                    newUser.email = req.param('email');
-                    newUser.firstName = req.param('firstName');
-                    newUser.lastName = req.param('lastName');
+                    newUser.credentials.username = username;
+                    newUser.credentials.password = createHash(password);
+                    newUser.credentials.email = req.param('email');
+                    newUser.credentials.contact = req.param('contact');
 
                     // save the user
                     newUser.save(function(err) {
@@ -133,12 +137,8 @@ passport.use('signup', new LocalStrategy({
         // Delay the execution of findOrCreateUser and execute
         // the method in the next tick of the event loop
         process.nextTick(findOrCreateUser);
-    }));
-
-// Generates hash using bCrypt
-var createHash = function(password) {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}
+    }
+));
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -181,7 +181,7 @@ router.post('/login', function(req, res, next) {
         if (err) {
             return next(err); // will generate a 500 error
         }
-        // Generate a JSON response reflecting signup
+        // Generate a JSON response reflecting login
         if (!user) {
             return res.send({
                 success: false,

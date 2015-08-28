@@ -36,6 +36,20 @@ angular
     .factory('storage', function() {
         return {};
     })
+    .factory('credentials', function($http) {
+        return {
+            logIn: function(username, password) {
+                return $http.post('http://localhost:8080/api/register/:id', {
+                    username: username,
+                    password: password
+                });
+            },
+
+            logOut: function() {
+
+            }
+        }
+    })
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {
@@ -66,6 +80,14 @@ angular
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'
             })
+            .when('/signup', {
+                templateUrl: 'views/signup.html',
+                controller: 'SignUpCtrl'
+            })
+            .when('dashboard', {
+                templateUrl: 'viewa/dashboard.html',
+                controller: 'ApplicationController'
+            })
             .when('/event/edit', {
                 templateUrl: 'views/events/eventEdit.html',
                 controller: 'EventEditCtrl'
@@ -73,14 +95,6 @@ angular
             .when('/event', {
                 templateUrl: 'views/events/eventList.html',
                 controller: 'EventCtrl'
-            })
-            .when('/register', {
-                templateUrl: 'views/register.html',
-                controller: 'RegisterCtrl'
-            })
-            .when('/signup', {
-                templateUrl: 'views/signup.html',
-                controller: 'AboutCtrl'
             })
             .when('/mailingLists', {
                 templateUrl: 'views/mailingList/mailingList.html',
