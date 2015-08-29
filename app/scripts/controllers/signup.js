@@ -9,23 +9,75 @@
  */
 
 angular.module('projectApp')
-    .controller('SignUpCtrl', ['$scope', '$rootScope', function($scope, $location, storage, User) {
-        $scope.credentials = {
-            username: '',
-            password: '',
-            contact: '',
-            email:''
-        };
-        User.query(function(data) {
-            $scope.User = data;
-        });
+.controller('SignUpCtrl', ['$scope', '$rootScope', '$location', 'RegService', 'REG_EVENTS', 'userService', function($scope, $rootScope, $location, RegService, REG_EVENTS, userService) {
+    $scope.credentials = {
+        username: '',
+        password: '',
+        contact: '',
+        email: ''
+    };
 
-        $scope.register = function(credentials) {
-            if (credentials.username === 'new') {
-                storage.newUser = true;
-            } else {
-                storage.newUser = false;
-            }
-            $location.path('/signup');
-        };
-    }]);
+    $scope.register = function(credentials) {
+        RegService.register(credentials).then(function(user) {
+            $rootScope.$broadcast(REG_EVENTS.registerSuccess);
+            $scope.setCurrentUser(user);
+            $location.path('/dashboard');
+            userService.user.isLogged = true;
+        }, function() {
+            $rootScope.$broadcast(REG_EVENTS.registerFailed);
+        });
+    };
+}])
+// Communicating session changes
+.constant('REG_EVENTS', {
+  registerSuccess: 'reg-register-success',
+  registerFailed: 'reg-register-failed',
+  notAuthorized: 'reg-not-authorized'
+})
+.constant('USER_ROLES', {
+  all: '*',
+  admin: 'admin',
+  editor: 'editor',
+  guest: 'guest'
+})
+// The AuthService
+.factory('RegService', function($http, Session) {
+  var regService = {};
+
+  regService.register = function(credentials) {
+    return $http
+    .post('http://localhost:8080/api/signup', credentials)
+    .then(function(res) {
+      Session.create(res.data.id, res.data.user.id,
+                     res.data.user.role);
+                     return res.data.user;
+    });
+  };
+
+  regService.isAuthenticated = function() {
+    return !!Session.userId;
+  };
+
+  regService.isAuthorized = function(authorizedRoles) {
+    if (!angular.isArray(authorizedRoles)) {
+      authorizedRoles = [authorizedRoles];
+    }
+    return (authService.isAuthenticated() &&
+            authorizedRoles.indexOf(Session.userRole) !== -1);
+
+  };
+
+  return regService;
+})
+.service('Session', function() {
+  this.create = function(sessionId, userId, userRole) {
+    this.id = sessionId;
+    this.userId = userId;
+    this.userRole = userRole;
+  };
+  this.destroy = function() {
+    this.id = null;
+    this.userId = null;
+    this.userRole = null;
+  };
+})

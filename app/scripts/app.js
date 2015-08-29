@@ -17,7 +17,8 @@ angular
         'ngSanitize',
         'ngTouch',
         'mgcrea.ngStrap',
-        'ui.router'
+        'ui.router',
+        'toaster'
     ])
     .factory('Event', function($resource) {
         return $resource('http://localhost:8080/api/events/:id', null, {
@@ -36,53 +37,61 @@ angular
     .factory('storage', function() {
         return {};
     })
-    .factory('credentials', function($http) {
+    .factory('userService', function () {
+        var user = {
+            isLogged: false
+        };
+
+        var reset = function() {
+            user.isLogged = false;
+        };
+
         return {
-            logIn: function(username, password) {
-                return $http.post('http://localhost:8080/api/register/:id', {
-                    username: username,
-                    password: password
-                });
-            },
-
-            logOut: function() {
-
-            }
-        }
+            user: user,
+            reset : reset
+          };
     })
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl',
+                access : {allowAnonymous : true}
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
-                controller: 'LoginCtrl'
+                controller: 'LoginCtrl',
+                access : {allowAnonymous : true}
             })
             .when('/signup', {
                 templateUrl: 'views/signup.html',
-                controller: 'SignUpCtrl'
+                controller: 'SignUpCtrl',
+                access : {allowAnonymous : true}
             })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
-                controller: 'LoginCtrl'
+                controller: 'DashboardController',
+                access : {allowAnonymous : false}
             })
             .when('/event/edit', {
                 templateUrl: 'views/events/eventEdit.html',
-                controller: 'EventEditCtrl'
+                controller: 'EventEditCtrl',
+                access : {allowAnonymous : false}
             })
             .when('/event', {
                 templateUrl: 'views/events/eventList.html',
-                controller: 'EventCtrl'
+                controller: 'EventCtrl',
+                access : {allowAnonymous : false}
             })
             .when('/mailingLists', {
                 templateUrl: 'views/mailingList/mailingList.html',
-                controller: 'mailingListCtrl'
+                controller: 'mailingListCtrl',
+                access : {allowAnonymous : false}
             })
             .when('/mailingLists/edit', {
                 templateUrl: 'views/mailingList/mailingListEdit.html',
-                controller: 'mailingListEditCtrl'
+                controller: 'mailingListEditCtrl',
+                access : {allowAnonymous : false}
             })
 
         .otherwise({

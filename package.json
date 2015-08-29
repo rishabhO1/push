@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "angular-ui-router": "^0.2.15",
+    "angularjs-toaster": "^0.4.15",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.4",
     "connect-flash": "^0.1.1",

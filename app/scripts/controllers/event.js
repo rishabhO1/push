@@ -9,19 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, $http, storage, Event) {
-        $scope.selectedMailingListName = null;
-        $scope.mailingListsName = [];
-
-        $http({
-            method: 'GET',
-            url: '/mailingLists',
-            data: {
-                applicationId: 3
-            }
-        }).success(function(result) {
-            $scope.mailingListsName = result;
-        });
+    .controller('EventCtrl', function($scope, $location, storage, Event) {
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -59,5 +47,5 @@ angular.module('projectApp')
         };
         $scope.back = function() {
             $location.path('/event');
-        }
+        };
     });

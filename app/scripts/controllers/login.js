@@ -8,17 +8,17 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', 'AuthService', 'AUTH_EVENTS', '$location', function($scope, $rootScope, AuthService, AUTH_EVENTS, $location) {
+.controller('LoginCtrl', ['$scope', '$rootScope', '$location', 'AuthService', 'AUTH_EVENTS', 'userService', function($scope, $rootScope, $location, AuthService, AUTH_EVENTS, userService) {
   $scope.credentials = {
     username: '',
     password: ''
   };
   $scope.login = function(credentials) {
-    console.log(credentials);
     AuthService.login(credentials).then(function(user) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       $scope.setCurrentUser(user);
       $location.path('/dashboard');
+      userService.user.isLogged = true;
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
@@ -82,10 +82,27 @@ angular.module('projectApp')
     this.userRole = null;
   };
 })
-.controller('ApplicationController', ['$scope', '$rootScope', 'AuthService', function($scope, USER_ROLES, AuthService) {
+.controller('ApplicationController', ['$scope', '$rootScope', '$location','USER_ROLES','AuthService', 'userService', 'toaster', function($scope, $rootScope, $location, USER_ROLES, AuthService, userService, toaster) {
   $scope.currentUser = null;
   $scope.userRoles = USER_ROLES;
   $scope.isAuthorized = AuthService.isAuthorized;
+
+  // restricting route access
+  $scope.user = userService.user;
+  $scope.$on('$routeChangeStart', function (e, next, current) {               
+     if (next.access !== undefined && !next.access.allowAnonymous && !$scope.user.isLogged) {
+                $location.path('/Login');                   
+            }
+  });
+  $rootScope.$on('$locationChangeStart', function (event, next, current) {
+    for (var i in window.routes) {
+      if (next.indexOf(i) !== -1) {
+       if (!window.routes[i].access.allowAnonymous && !userService.user.isLogged) {
+            toaster.pop('error', 'You are not logged in!', '');
+               $location.path('/Login');                                                 
+        }}}
+  });
+
   $scope.setCurrentUser = function(user) {
     $scope.currentUser = user;
   };
@@ -212,20 +229,3 @@ return deferred.promise;
 };
 })
 */
-
-
-/*.controller('LoginCtrl', function($scope, $location, storage, Event, $http) {
-  $scope.submit = function() {
-  $http.post('http://localhost:8080/api/login', {
-  username: $scope.username,
-  password: $scope.password
-  }).then(
-  function(response) {
-  console.log(response);
-  },
-  function(response) {
-  console.log("error");
-  }
-  )
-  }
-  })*/

@@ -47,5 +47,5 @@ angular.module('projectApp')
         };
         $scope.back = function() {
             $location.path('/mailingLists');
-        }
+        };
     });

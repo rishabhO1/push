@@ -119,10 +119,10 @@ function(req, username, password, done) {
         // create the user
         var newUser = new User();
         // set the user's local credentials
-        newUser.credentials.username = username;
-        newUser.credentials.password = createHash(password);
-        newUser.credentials.email = req.param('email');
-        newUser.credentials.contact = req.param('contact');
+        newUser.username = username;
+        newUser.password = createHash(password);
+        newUser.email = req.param('email');
+        newUser.contact = req.param('contact');
 
         // save the user
         newUser.save(function(err) {
@@ -141,7 +141,7 @@ function(req, username, password, done) {
   // the method in the next tick of the event loop
   process.nextTick(findOrCreateUser);
 }
-                                        ));
+));
 
                                         // ROUTES FOR OUR API
                                         // =============================================================================
@@ -195,7 +195,7 @@ router.post('/login', function(req, res, next) {
       id: req.sessionID,
       user: {
         id: user.username,
-        role: "USER"
+        role: "guest"
       },
       success: true,
       message: 'login succeeded'
@@ -223,6 +223,11 @@ router.post('/signup', function(req, res, next) {
       });
     }
     return res.send({
+      id: req.sessionID,
+      user: {
+        id: user.username,
+        role: "guest"
+      },
       success: true,
       message: 'signup succeeded'
     });

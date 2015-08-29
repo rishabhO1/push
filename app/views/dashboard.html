@@ -1,3 +1,4 @@
+<body>
     <div ng-if="currentUser">Welcome, {{ currentUser.id }}</div>
     <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
     <div ng-if="currentUser" ng-switch on="currentUser.role">
@@ -5,3 +6,22 @@
         <div ng-switch-when="userRoles.editor">You're editor.</div>
         <div ng-switch-default>You're {{ currentUser.role }}.</div>
     </div>
+    <div class="panel panel-default">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="mailingList in mailingLists">
+                    <td>{{mailingList.name}}</td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
