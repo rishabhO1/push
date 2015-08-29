@@ -56,26 +56,6 @@ angular
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .when('/about', {
-                templateUrl: 'views/about.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/class', {
-                templateUrl: 'views/academic.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/hostel', {
-                templateUrl: 'views/hostel.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/clubs', {
-                templateUrl: 'views/clubs.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/contact', {
-                templateUrl: 'views/contact.html',
-                controller: 'AboutCtrl'
-            })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'
@@ -84,9 +64,9 @@ angular
                 templateUrl: 'views/signup.html',
                 controller: 'SignUpCtrl'
             })
-            .when('dashboard', {
-                templateUrl: 'viewa/dashboard.html',
-                controller: 'ApplicationController'
+            .when('/dashboard', {
+                templateUrl: 'views/dashboard.html',
+                controller: 'LoginCtrl'
             })
             .when('/event/edit', {
                 templateUrl: 'views/events/eventEdit.html',
@@ -103,18 +83,6 @@ angular
             .when('/mailingLists/edit', {
                 templateUrl: 'views/mailingList/mailingListEdit.html',
                 controller: 'mailingListEditCtrl'
-            })
-            .when('/academicEvents', {
-                templateUrl: 'views/academicEvents.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/clubEvents', {
-                templateUrl: 'views/clubEvents.html',
-                controller: 'AboutCtrl'
-            })
-            .when('/hostelEvents', {
-                templateUrl: 'views/hostelEvents.html',
-                controller: 'AboutCtrl'
             })
 
         .otherwise({
