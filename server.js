@@ -143,31 +143,31 @@ function(req, username, password, done) {
 }
 ));
 
-                                        // ROUTES FOR OUR API
-                                        // =============================================================================
-                                        var router = express.Router(); // get an instance of the express Router
+// ROUTES FOR OUR API
+// =============================================================================
+var router = express.Router(); // get an instance of the express Router
 
-                                        // middleware to use for all requests
-                                        router.use(function(req, res, next) {
-                                          // do logging
-                                          console.log('Something is happening.');
-                                          res.header("Access-Control-Allow-Origin", "*");
-                                          res.header('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-                                          res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-                                          if ('OPTIONS' == req.method) {
-                                            return res.sendStatus(200);
-                                          }
-                                          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                                          next(); // make sure we go to the next routes and don't stop here
-                                        });
+// middleware to use for all requests
+router.use(function(req, res, next) {
+  // do logging
+  console.log('Something is happening.');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  if ('OPTIONS' == req.method) {
+    return res.sendStatus(200);
+  }
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next(); // make sure we go to the next routes and don't stop here
+});
 
-                                        // As with any middleware it is quintessential to call next()
-                                        // if the user is authenticated
-                                        var isAuthenticated = function(req, res, next) {
-                                          if (req.isAuthenticated())
-                                            return next();
-                                          res.redirect('/');
-                                        }
+// As with any middleware it is quintessential to call next()
+// if the user is authenticated
+var isAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
 
 /* GET login page. */
 router.get('/', function(req, res) {
@@ -195,7 +195,8 @@ router.post('/login', function(req, res, next) {
       id: req.sessionID,
       user: {
         id: user.username,
-        role: "guest"
+        role: "guest",
+        mailingLists: user.mailingLists
       },
       success: true,
       message: 'login succeeded'
@@ -249,6 +250,29 @@ router.get('/home', isAuthenticated, function(req, res) {
 
 
 
+router.post('/subscribe', function(req,res) {
+  var username = req.body.username;
+  var mailingListId= req.body.mailingListId;
+  User.update({username: username},{$addToSet: {mailingLists:mailingListId}},{upsert:true},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
+});
+
+router.post('/unsubscribe', function(req,res) {
+  var username = req.body.username;
+  var mailingListId= req.body.mailingListId;
+  User.update({username: username},{$pull: {mailingLists:mailingListId}},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
+});
 
 
 

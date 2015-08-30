@@ -70,7 +70,7 @@ angular
             })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
-                controller: 'DashboardController',
+                controller: 'DashboardCtrl',
                 access : {allowAnonymous : false}
             })
             .when('/event/edit', {

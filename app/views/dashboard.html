@@ -1,11 +1,3 @@
-<body>
-    <div ng-if="currentUser">Welcome, {{ currentUser.id }}</div>
-    <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
-    <div ng-if="currentUser" ng-switch on="currentUser.role">
-        <div ng-switch-when="userRoles.admin">You're admin.</div>
-        <div ng-switch-when="userRoles.editor">You're editor.</div>
-        <div ng-switch-default>You're {{ currentUser.role }}.</div>
-    </div>
     <div class="panel panel-default">
         <table class="table table-hover">
             <thead>
@@ -18,10 +10,10 @@
                 <tr ng-repeat="mailingList in mailingLists">
                     <td>{{mailingList.name}}</td>
                     <td>
-                        
+                      <button ng-class="(containsObject(mailingList._id,currentUser.mailingLists))?'btn btn-default': 'btn btn-primary'" ng-click="subscribe(mailingList)">Subscribe</button>
+                      <button ng-class="(containsObject(mailingList._id,currentUser.mailingLists))?'btn btn-primary': 'btn btn-default'" ng-click="unsubscribe(mailingList)">Unsubscribe</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</body>
