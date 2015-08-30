@@ -11,7 +11,7 @@
                     <th>Valid to</th>
                     <th>Description</th>
                     <th>Recurrence</th>
-                    <th>Mailing List Name</th>
+                    <th colspan="2" style="text-align:center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,9 +21,8 @@
                     <td>{{event.fromDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{event.untilDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{event.Description}}</td>
-                    <td>{{event.recurrence}}v2</td>
-                    <td>{{event.mailingListName}}</td>
-                    <td>
+                    <td>{{event.recurrence}}TODO</td>
+                    <td colspan="2">
                         <button type="button" ng-click="editEvent(event)" class="btn btn-primary">Edit</button>
                         <button type="button" ng-click="deleteEvent(event._id)" class="btn btn-default">Delete</button>
                     </td>

@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('DashboardCtrl', ['$scope', '$location', 'storage', 'MailingList', function($scope, $location, storage, MailingList) {
+    .controller('DashboardCtrl', ['$scope', '$location', 'MailingList', function($scope, $location, MailingList) {
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
