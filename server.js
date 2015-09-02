@@ -91,7 +91,7 @@ function(req, username, password, done) {
     // done method which will be treated like success
     return done(null, user);
   }
-              );
+);
 }));
 
 // passport/signup.js
@@ -136,7 +136,6 @@ function(req, username, password, done) {
       }
     });
   };
-
   // Delay the execution of findOrCreateUser and execute
   // the method in the next tick of the event loop
   process.nextTick(findOrCreateUser);
@@ -169,6 +168,11 @@ var isAuthenticated = function(req, res, next) {
   res.redirect('/');
 }
 
+// more routes for our API will happen here
+
+// on routes used in authentication
+// ----------------------------------------------------
+
 /* GET login page. */
 router.get('/', function(req, res) {
   // Display the Login page with any flash message, if any
@@ -178,7 +182,6 @@ router.get('/', function(req, res) {
 });
 
 /* Handle Login POST */
-
 router.post('/login', function(req, res, next) {
   passport.authenticate('login', function(err, user, info) {
     if (err) {
@@ -248,8 +251,6 @@ router.get('/dashboard', isAuthenticated, function(req, res) {
   });
 });
 
-
-
 router.post('/subscribe', function(req,res) {
   var username = req.body.username;
   var mailingListId= req.body.mailingListId;
@@ -274,10 +275,27 @@ router.post('/unsubscribe', function(req,res) {
   });
 });
 
+router.post('/addtoml', function(req,res) {
+  var eventId= req.body.event_id;
+  MailingList.update({$addToSet: {events:eventId}},{upsert:true},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
+});
 
-
-
-// more routes for our API will happen here
+router.post('/removefromml', function(req,res) {
+  var eventId= req.body.event_id;
+  MailingList.update({$pull: {events:eventId}},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
+});
 
 // on routes that end in /events
 // ----------------------------------------------------
@@ -295,14 +313,6 @@ router.route('/events')
   event.Description = req.body.Description;
   event.recurrence = req.body.recurrence;
   event.mailingListName = req.body.mailingListName;
-  
-  MailingList.update({$addToSet: {events:req.params.event_id}},{upsert:true},function(err){
-      if(err){
-        res.json({ message: 'Error' });
-      }else{
-        res.json({ message: 'Success' });
-      }
-  });
 
   // save the event and check for errors
   event.save(function(err) {
@@ -352,13 +362,6 @@ router.route('/events/:event_id')
     event.Description = req.body.Description;
     event.recurrence = req.body.recurrence;
     event.mailingListName = req.body.mailingListName; // update the events info
-    MailingList.update({$addToSet: {events:req.params.event_id}},{upsert:true},function(err){
-      if(err){
-        res.json({ message: 'Error' });
-      }else{
-        res.json({ message: 'Success' });
-      }
-    });
     
     // save the event
     event.save(function(err) {
@@ -375,13 +378,6 @@ router.route('/events/:event_id')
 
 // delete the event with this id (accessed at DELETE http://localhost:8080/api/events/:event_id)
 .delete(function(req, res) {
-  MailingList.update({$pull: {events:req.params.event_id}},function(err){
-      if(err){
-        res.json({ message: 'Error' });
-      }else{
-        res.json({ message: 'Success' });
-      }
-  });
   Event.remove({
     _id: req.params.event_id
   }, function(err, event) {
@@ -393,13 +389,6 @@ router.route('/events/:event_id')
     });
   });
 });
-
-
-
-
-
-
-
 
 
 // on routes that end in /mailingLists
@@ -484,7 +473,6 @@ router.route('/mailingLists/:mailingList_id')
     });
   });
 });
-
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

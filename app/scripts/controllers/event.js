@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, storage, Event, MailingList) {
+    .controller('EventCtrl', function($scope, $location, $http, storage, Event, MailingList) {
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -18,6 +18,9 @@ angular.module('projectApp')
         });
 
         $scope.deleteEvent = function(eventId) {
+            $http.post('http://localhost:8080/api/removefromml', {
+                eventId: eventId
+              });
             Event.delete({
                 id: eventId
             });
@@ -49,6 +52,9 @@ angular.module('projectApp')
                     id: event._id
                 }, event);
             }
+            $http.post('http://localhost:8080/api/removefromml', {
+                eventId: event._id
+              });
             $location.path('/event');
         };
         $scope.back = function() {
