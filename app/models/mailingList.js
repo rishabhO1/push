@@ -4,7 +4,9 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var mailingListSchema   = new Schema({
-    name: String
+    name: String,
+    events: [String],
+    users: [String]
 });
 
 module.exports = mongoose.model('mailingList', mailingListSchema);

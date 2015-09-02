@@ -196,7 +196,7 @@ router.post('/login', function(req, res, next) {
       user: {
         id: user.username,
         role: "guest",
-        mailingLists: user.mailingLists
+        mailingLists: user.mailingLists,
       },
       success: true,
       message: 'login succeeded'
@@ -242,8 +242,8 @@ router.get('/signout', function(req, res) {
 });
 
 /* GET Home Page */
-router.get('/home', isAuthenticated, function(req, res) {
-  res.render('home', {
+router.get('/dashboard', isAuthenticated, function(req, res) {
+  res.render('dashboard', {
     user: req.user
   });
 });
@@ -295,6 +295,14 @@ router.route('/events')
   event.Description = req.body.Description;
   event.recurrence = req.body.recurrence;
   event.mailingListName = req.body.mailingListName;
+  
+  MailingList.update({$addToSet: {events:req.params.event_id}},{upsert:true},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
 
   // save the event and check for errors
   event.save(function(err) {
@@ -344,7 +352,14 @@ router.route('/events/:event_id')
     event.Description = req.body.Description;
     event.recurrence = req.body.recurrence;
     event.mailingListName = req.body.mailingListName; // update the events info
-
+    MailingList.update({$addToSet: {events:req.params.event_id}},{upsert:true},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+    });
+    
     // save the event
     event.save(function(err) {
       if (err)
@@ -360,6 +375,13 @@ router.route('/events/:event_id')
 
 // delete the event with this id (accessed at DELETE http://localhost:8080/api/events/:event_id)
 .delete(function(req, res) {
+  MailingList.update({$pull: {events:req.params.event_id}},function(err){
+      if(err){
+        res.json({ message: 'Error' });
+      }else{
+        res.json({ message: 'Success' });
+      }
+  });
   Event.remove({
     _id: req.params.event_id
   }, function(err, event) {

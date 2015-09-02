@@ -13,7 +13,6 @@ angular.module('projectApp')
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
-        console.log($scope.currentUser);
         $scope.containsObject = function(obj, list) {
           var i;
           for (i = 0; i < list.length; i++) {
@@ -31,14 +30,21 @@ angular.module('projectApp')
             mailingListId: mailingList._id
           })
           .then(function(res) {
-            console.log(res);
-            if (res.data.message=="Success"){
+            if (res.data.message==='Success'){
               $scope.currentUser.mailingLists.push(mailingList._id);
             }
           });
-        }
+        };
         $scope.unsubscribe = function(mailingList){
-          console.log(mailingList._id);
-          console.log("unsubscribe");
-        }
+          $http
+          .post('http://localhost:8080/api/unsubscribe', {
+            username: $scope.currentUser.id,
+            mailingListId: mailingList._id
+          })
+          .then(function(res) {
+            if (res.data.message==='Success'){
+              $scope.currentUser.mailingLists.splice($scope.currentUser.mailingLists.indexOf(mailingList._id), 1);
+            }
+          });
+        };
     }]);

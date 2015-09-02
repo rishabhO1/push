@@ -40,7 +40,7 @@ angular.module('projectApp')
   editor: 'editor',
   guest: 'guest'
 })
-// The AuthService
+// The RegService
 .factory('RegService', function($http, Session) {
   var regService = {};
 
@@ -62,7 +62,7 @@ angular.module('projectApp')
     if (!angular.isArray(authorizedRoles)) {
       authorizedRoles = [authorizedRoles];
     }
-    return (authService.isAuthenticated() &&
+    return (regService.isAuthenticated() &&
             authorizedRoles.indexOf(Session.userRole) !== -1);
 
   };
@@ -80,4 +80,4 @@ angular.module('projectApp')
     this.userId = null;
     this.userRole = null;
   };
-})
+});

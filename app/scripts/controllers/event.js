@@ -9,7 +9,10 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, storage, Event) {
+    .controller('EventCtrl', function($scope, $location, storage, Event, MailingList) {
+        Event.query(function(data) {
+            $scope.events = data;
+        });
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -33,8 +36,11 @@ angular.module('projectApp')
             $location.path('/event/edit');
         };
     })
-    .controller('EventEditCtrl', function($scope, $location, storage, Event) {
+    .controller('EventEditCtrl', function($scope, $location, $http, storage, Event, MailingList) {
         $scope.editedEvent = storage.editedEvent;
+        MailingList.query(function(data) {
+            $scope.mailingLists = data;
+        });
         $scope.save = function(event) {
             if (storage.newEvent) {
                 Event.save(event);

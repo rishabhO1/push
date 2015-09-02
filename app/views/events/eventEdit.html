@@ -10,6 +10,7 @@
                 <th>Valid to</th>
                 <th>Description</th>
                 <th>Recurrence</th>
+                <th>Mailing List Name</th>
             </tr>
             <tr>
                 <td>
@@ -29,6 +30,11 @@
                 </td>
                 <td>
                     recurrence
+                </td>
+                <td>
+                    <select type="text" class="form-control" ng-model="editedEvent.mailingListName">
+                        <option ng-repeat="mailingList in mailingLists">{{mailingList.name}}</option>
+                    </select>
                 </td>
             </tr>
         </table>
