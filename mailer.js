@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 mongoose.connect('mongodb://localhost/test');
 var Event = require('./app/models/event');
+var MailingList = require('./app/models/mailingList.js');
+var _und = require('underscore');
 
 // Send daily emails
 sendDaily = function(){
@@ -54,9 +56,17 @@ sendMonthly = function(){
     },function (err, events){
       eventsToBeSent = eventsToBeSent.concat(events);
       console.log('Monthly events: '+events.length);
-      console.log(eventsToBeSent);
       mongoose.connection.close();
+      groupIt();
   })
+}
+
+groupIt = function(){
+  // add mailingListId to events and then change the grouping to mailingListId
+  grouped = _und.groupBy(eventsToBeSent, 'mailingListName');
+  for(mailingListName in grouped){
+    sendEmailForMailingList(mailingListName, grouped[mailingListName]);
+  }
 }
 
 eventsToBeSent = [];
@@ -64,4 +74,16 @@ sendDaily();
 
 // group by mailing list id
 
-// sendEmailForMailingList = function(mailingListId, events)
+
+sendEmailForMailingList = function(mailingListId, events) {
+  console.log(MailingList.find({
+    'name': mailingListId
+  }, function(err, mailingList){
+    console.log('here');
+    console.log(mailingList);
+    // console.log(events);
+    // emails = getEmailOfSubscribers(mailingListId);
+    // emailMessage = createMessage(events);
+  })
+             )
+}
