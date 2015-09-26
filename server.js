@@ -307,9 +307,9 @@ router.route('/events')
 
   var event = new Event(); // create a new instance of the Event model
   event.eventName = req.body.eventName; // set the events name (comes from the request)
-  event.Time = req.body.Time;
-  event.fromDate = req.body.fromDate;
-  event.untilDate = req.body.untilDate;
+  event.Time = new Date(req.body.Time);
+  event.fromDate = new Date(req.body.fromDate);
+  event.untilDate = new Date(req.body.untilDate);
   event.Description = req.body.Description;
   event.recurrence = req.body.recurrence;
   event.mailingListName = req.body.mailingListName;
@@ -356,9 +356,9 @@ router.route('/events/:event_id')
       res.send(err);
 
     event.eventName = req.body.eventName; // set the events name (comes from the request)
-    event.Time = req.body.Time;
-    event.fromDate = req.body.fromDate;
-    event.untilDate = req.body.untilDate;
+    event.Time = new Date(req.body.Time);
+    event.fromDate = new Date(req.body.fromDate);
+    event.untilDate = new Date(req.body.untilDate);
     event.Description = req.body.Description;
     event.recurrence = req.body.recurrence;
     event.mailingListName = req.body.mailingListName; // update the events info

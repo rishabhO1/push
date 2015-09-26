@@ -5,10 +5,11 @@ var Schema       = mongoose.Schema;
 
 var eventSchema   = new Schema({
     eventName: String,
-    Time: String,
-    fromDate: String,
-    untilDate: String, 
+    Time: Date,
+    fromDate: Date,
+    untilDate: Date, 
     Description: String,
+    recurrence: String,
     mailingListName: String
 });
 

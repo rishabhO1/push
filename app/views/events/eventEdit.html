@@ -20,16 +20,21 @@
                     <input type="text" class="form-control" size="8" ng-model="editedEvent.Time" name="Time" placeholder="Notification Time" data-autoclose="0" data-time-format="h:mm:ss a" data-length="1" data-minute-step="1" data-arrow-behavior="picker" bs-timepicker>
                 </td>
                 <td>
-                    <input type="text" size="10" class="form-control" ng-model="editedEvent.fromDate" data-max-date="{{editedEvent.untilDate}}" data-autoclose="1" placeholder="valid From Date" id="fromDate" bs-datepicker>
+                    <input type="text" size="10" class="form-control" ng-model="editedEvent.fromDate" data-autoclose="1" placeholder="valid From Date" id="fromDate" bs-datepicker>
                 </td>
                 <td>
-                    <input type="text" size="10" class="form-control" ng-model="editedEvent.untilDate" data-min-date="{{editedEvent.fromDate}}" data-autoclose="1" placeholder="valid To Date" id="untilDate" bs-datepicker>
+                    <input type="text" size="10" class="form-control" ng-model="editedEvent.untilDate" data-autoclose="1" placeholder="valid To Date" id="untilDate" bs-datepicker>
                 </td>
                 <td>
                     <input type="text" class="form-control" id="Description" placeholder="Enter Event description" ng-model="editedEvent.Description">
                 </td>
                 <td>
-                    recurrence
+                    <select type="text" class="form-control" ng-model="editedEvent.recurrence">
+                        <option>None</option>
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                    </select>
                 </td>
                 <td>
                     <select type="text" class="form-control" ng-model="editedEvent.mailingListName">
