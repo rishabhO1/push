@@ -105,7 +105,7 @@ sendEmail = function(user, message){
       "html": "<p>"+message.replace(/\n/g,'<br>')+"</p>",
       "text": message,
       "subject": "Daily Task Digest",
-      "from_email": "contact@aadarsh.biz",
+      "from_email": "push@sum.co.in",
       "from_name": "Push",
       "to": [{
               "email": user.email,
