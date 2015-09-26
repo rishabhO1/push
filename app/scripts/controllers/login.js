@@ -8,7 +8,8 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', '$location', 'AuthService', 'AUTH_EVENTS', 'userService', function($scope, $rootScope, $location, AuthService, AUTH_EVENTS, userService) {
+.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'AuthService', 'AUTH_EVENTS', 'userService', 'Session', 
+  function($scope, $rootScope, $location, $cookieStore, AuthService, AUTH_EVENTS, userService, Session) {
   $scope.credentials = {
     username: '',
     password: ''
@@ -19,8 +20,10 @@ angular.module('projectApp')
       $scope.setCurrentUser(user);
       $location.path('/dashboard');
       userService.user.isLogged = true;
+      $cookieStore.put('loggedin', true);
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+      $cookieStore.put('loggedin', null);
     });
   };
   $scope.logout = function(user) {
@@ -29,6 +32,8 @@ angular.module('projectApp')
     $location.path('/');
     userService.user.isLogged = false;
     Session.destroy();
+    $cookieStore.put('loggedin', null);
+    $cookieStore.put('sessionId', null);
   };
 }])
 
@@ -49,7 +54,7 @@ angular.module('projectApp')
 })
 
 // The AuthService
-.factory('AuthService', function($http, Session) {
+.factory('AuthService', function($http, $cookieStore, Session) {
   var authService = {};
 
   authService.login = function(credentials) {
@@ -58,7 +63,8 @@ angular.module('projectApp')
     .then(function(res) {
       Session.create(res.data.id, res.data.user.id,
                      res.data.user.role);
-                     return res.data.user;
+      $cookieStore.put('sessionId', res.data.id);
+       return res.data.user;
     });
   };
 
@@ -89,16 +95,21 @@ angular.module('projectApp')
     this.userRole = null;
   };
 })
-.controller('ApplicationController', ['$scope', '$rootScope', '$location','USER_ROLES','AuthService', 'userService', 'toaster', function($scope, $rootScope, $location, USER_ROLES, AuthService, userService, toaster) {
+.controller('ApplicationController', ['$scope', '$rootScope', '$location', '$cookieStore', '$cookies','USER_ROLES','AuthService', 'userService', 'toaster', 'Session', 
+  function($scope, $rootScope, $location, $cookieStore, $cookies,USER_ROLES, AuthService, userService, toaster, Session) {
   $scope.currentUser = null;
   $scope.userRoles = USER_ROLES;
   $scope.isAuthorized = AuthService.isAuthorized;
+  $scope.currentUser = Session.userId;
+  //TODO
+  // set user according to session and cookies
+  //$scope.currentUser = $cookies.sessionId 
 
   // restricting route access
   $scope.user = userService.user;
   $scope.$on('$routeChangeStart', function (e, next, current) {               
-     if (next.access !== undefined && !next.access.allowAnonymous && !$scope.user.isLogged) {
-                $location.path('/Login');                   
+     if (next.access !== undefined && !next.access.allowAnonymous && !$scope.loggedIn) {
+                $location.path('/login');                   
             }
   });
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
@@ -106,13 +117,24 @@ angular.module('projectApp')
       if (next.indexOf(i) !== -1) {
        if (!window.routes[i].access.allowAnonymous && !userService.user.isLogged) {
             toaster.pop('error', 'You are not logged in!', '');
-               $location.path('/Login');                                                 
+               $location.path('/login');                                                 
         }}}
   });
 
   $scope.setCurrentUser = function(user) {
     $scope.currentUser = user;
   };
+
+  //Cookie Storage
+  //using cookie to retain Session
+  $scope.loggedIn = $cookieStore.get('loggedin');
+  if ($scope.loggedIn === true) {
+    $scope.loggedOut = null;
+  }
+  else{
+    $scope.loggedOut = true;
+    $scope.loggedIn = null;
+  } 
 }])
 
 // Access Control
@@ -140,7 +162,44 @@ angular.module('projectApp')
       }
     }
   });
-});
+})
+
+// Cookie Security CSRF
+// always set the correct CSRF header value before each request.
+// set the CSRF request header to the current value of the CSRF 
+// cookie for any request type not in allowedMethods
+.provider('myCSRF',[function(){
+  var headerName = 'X-CSRFToken';
+  var cookieName = 'csrftoken';
+  var allowedMethods = ['GET'];
+
+  this.setHeaderName = function(n) {
+    headerName = n;
+  }
+  this.setCookieName = function(n) {
+    cookieName = n;
+  }
+  this.setAllowedMethods = function(n) {
+    allowedMethods = n;
+  }
+  this.$get = ['$cookies', function($cookies){
+    return {
+      'request': function(config) {
+        if(allowedMethods.indexOf(config.method) === -1) {
+          // do something on success
+          config.headers[headerName] = $cookies[cookieName];
+        }
+        return config;
+      }
+    }
+  }];
+}])
+.config(function($httpProvider) {
+  $httpProvider.interceptors.push('myCSRF');
+})
+.run(['$http', '$cookies', function($http, $cookies) {
+  $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+}]);
 
 /*
 // Session expiration

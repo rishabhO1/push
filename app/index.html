@@ -45,8 +45,8 @@
                         <li><a ng-if="currentUser" ng-href="#/event">Events</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
-                      <li ng-if="currentUser">Welcome, {{ currentUser.id }}</li>
-                      <li ng-if="currentUser"><button ng-class="btn btn-default" ng-click="logout(user)" ng-controller="LoginCtrl">Logout</button></li>
+                      <li><a ng-if="currentUser">Welcome, {{ currentUser.id }}</a></li>
+                      <li><a ng-if="currentUser" ng-click="logout(user)" ng-controller="LoginCtrl">Logout</button></a></li>
                     </ul>
                 </div>
             </div>
