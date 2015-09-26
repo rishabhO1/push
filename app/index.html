@@ -46,6 +46,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
                       <li ng-if="currentUser">Welcome, {{ currentUser.id }}</li>
+                      <li ng-if="currentUser"><button ng-class="btn btn-default" ng-click="logout(user)" ng-controller="LoginCtrl">Logout</button></li>
                     </ul>
                 </div>
             </div>

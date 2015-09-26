@@ -23,6 +23,13 @@ angular.module('projectApp')
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
   };
+  $scope.logout = function(user) {
+    $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+    $scope.setCurrentUser(null);
+    $location.path('/');
+    userService.user.isLogged = false;
+    Session.destroy();
+  };
 }])
 
 // Communicating session changes

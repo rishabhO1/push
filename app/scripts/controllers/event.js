@@ -13,9 +13,6 @@ angular.module('projectApp')
         Event.query(function(data) {
             $scope.events = data;
         });
-        Event.query(function(data) {
-            $scope.events = data;
-        });
 
         $scope.deleteEvent = function(eventId) {
             $http.post('http://localhost:8080/api/removefromml', {
@@ -24,6 +21,7 @@ angular.module('projectApp')
             Event.delete({
                 id: eventId
             });
+            //$scope.events.splice($scope.events.indexOf(eventId), 1);
             Event.query(function(data) {
                 $scope.events = data;
             });
@@ -56,6 +54,7 @@ angular.module('projectApp')
                 eventId: event._id
               });
             $location.path('/event');
+            //$scope.events.push(event._id);
         };
         $scope.back = function() {
             $location.path('/event');
