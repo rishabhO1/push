@@ -3,6 +3,7 @@ var moment = require('moment');
 mongoose.connect('mongodb://localhost/test');
 var Event = require('./app/models/event');
 var MailingList = require('./app/models/mailingList.js');
+var User = require('./app/models/user.js');
 var _und = require('underscore');
 
 // Send daily emails
@@ -56,34 +57,65 @@ sendMonthly = function(){
     },function (err, events){
       eventsToBeSent = eventsToBeSent.concat(events);
       console.log('Monthly events: '+events.length);
-      mongoose.connection.close();
       groupIt();
   })
 }
 
+// group by mailing list id
 groupIt = function(){
   // add mailingListId to events and then change the grouping to mailingListId
   grouped = _und.groupBy(eventsToBeSent, 'mailingListName');
+  totalMailingListsToBeProcessed = Object.keys(grouped).length;
   for(mailingListName in grouped){
-    sendEmailForMailingList(mailingListName, grouped[mailingListName]);
+    consolidateEmailsForMailingList(mailingListName, grouped[mailingListName]);
   }
 }
 
-eventsToBeSent = [];
-sendDaily();
-
-// group by mailing list id
-
-
-sendEmailForMailingList = function(mailingListId, events) {
-  console.log(MailingList.find({
+// consolidate notifications to be send to each user
+consolidateEmailsForMailingList = function(mailingListId, events) {
+  MailingList.findOne({
     'name': mailingListId
   }, function(err, mailingList){
-    console.log('here');
-    console.log(mailingList);
-    // console.log(events);
-    // emails = getEmailOfSubscribers(mailingListId);
-    // emailMessage = createMessage(events);
+    mailingList.users.map(function(user){
+      if (!(user in emailsToBeSent)) emailsToBeSent[user] = [];
+      emailsToBeSent[user] = emailsToBeSent[user].concat(events);
+    });
+    totalMailingListsToBeProcessed -= 1;
+    if (totalMailingListsToBeProcessed == 0) sendEmails();
   })
-             )
 }
+
+createMessage = function(events){
+  message = "Number of events today: " + events.length + '\n';
+  sortedEvents = _und.sortBy(events, function(o){ return o.Time});
+  sortedEvents.map(function(event){
+    message += moment(event.Time).format("hh:mm a") + " : " + event.eventName + " (" + event.Description + ")\n";
+  })
+  return message;
+}
+
+sendEmail = function(user, message){
+  console.log("Sending Email to : "+ user.email);
+  console.log("Message : ");
+  console.log(message);
+  console.log("-------------------------");
+  console.log(process.env);
+  // EMAIL API CALL
+}
+
+sendEmails = function(){
+  for (userId in emailsToBeSent) {
+    messageToBeSent = createMessage(emailsToBeSent[userId]);
+    User.findById(userId, function(err, user){
+      sendEmail(user, messageToBeSent);
+    })
+
+  }
+  // emails = getEmailOfSubscribers(mailingListId);
+  // emailMessage = createMessage(events);
+}
+
+eventsToBeSent = [];
+emailsToBeSent = {};
+totalMailingListsToBeProcessed = 0;
+sendDaily();
