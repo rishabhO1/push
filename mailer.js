@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env['MANDRILL_API_KEY']);
 var moment = require('moment');
 mongoose.connect('mongodb://localhost/test');
 var Event = require('./app/models/event');
@@ -97,10 +99,26 @@ createMessage = function(events){
 sendEmail = function(user, message){
   console.log("Sending Email to : "+ user.email);
   console.log("Message : ");
-  console.log(message);
   console.log("-------------------------");
-  console.log(process.env);
   // EMAIL API CALL
+  var message = {
+      "html": "<p>"+message.replace(/\n/g,'<br>')+"</p>",
+      "text": message,
+      "subject": "Daily Task Digest",
+      "from_email": "contact@aadarsh.biz",
+      "from_name": "Push",
+      "to": [{
+              "email": user.email,
+          }],
+  };
+  var async = false;
+  mandrill_client.messages.send({"message": message, "async": async}, function(result) {
+      console.log(result);
+  }, function(e) {
+      // Mandrill returns the error as an object with name and message keys
+      console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+      // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+  });
 }
 
 sendEmails = function(){
