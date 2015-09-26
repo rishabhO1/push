@@ -10,7 +10,7 @@ sendDaily = function(){
       'fromDate':{$lte:moment().startOf('day').toDate().toISOString()},
       'untilDate':{$gte:moment().startOf('day').toDate().toISOString()}
     },function (err, events){
-      eventsToBeSent.concat(events);
+      eventsToBeSent = eventsToBeSent.concat(events);
       console.log('Daily events: '+events.length);
       sendNone();
   });
@@ -22,7 +22,7 @@ sendNone = function(){
       'recurrence':'None',
       'fromDate':moment().startOf('day').toDate().toISOString()
     },function (err, events){
-      eventsToBeSent.concat(events);
+      eventsToBeSent = eventsToBeSent.concat(events);
       console.log('None events: '+events.length);
       sendWeekly();
   });
@@ -37,7 +37,7 @@ sendWeekly = function(){
       'untilDate':{$gte:moment().startOf('day').toDate().toISOString()},
       '$where': 'return this.fromDate.getDay() == '+ day
     },function (err, events){
-      eventsToBeSent.concat(events);
+      eventsToBeSent = eventsToBeSent.concat(events);
       console.log('Weekly events: '+events.length);
       sendMonthly()
   })
@@ -52,11 +52,16 @@ sendMonthly = function(){
       'untilDate':{$gte:moment().startOf('day').toDate().toISOString()},
       '$where': 'return this.fromDate.getDate() == '+ date
     },function (err, events){
-      eventsToBeSent.concat(events);
+      eventsToBeSent = eventsToBeSent.concat(events);
       console.log('Monthly events: '+events.length);
+      console.log(eventsToBeSent);
       mongoose.connection.close();
   })
 }
 
 eventsToBeSent = [];
 sendDaily();
+
+// group by mailing list id
+
+// sendEmailForMailingList = function(mailingListId, events)
