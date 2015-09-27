@@ -9,7 +9,8 @@
  */
 
 angular.module('projectApp')
-.controller('SignUpCtrl', ['$scope', '$rootScope', '$location', 'RegService', 'REG_EVENTS', 'userService', function($scope, $rootScope, $location, RegService, REG_EVENTS, userService) {
+.controller('SignUpCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'RegService', 'REG_EVENTS', 'userService', 'toaster', 
+  function($scope, $rootScope, $location, $cookieStore, RegService, REG_EVENTS, userService, toaster) {
     $scope.credentials = {
         username: '',
         password: '',
@@ -20,12 +21,14 @@ angular.module('projectApp')
     $scope.register = function(credentials) {
         RegService.register(credentials).then(function(user) {
             $rootScope.$broadcast(REG_EVENTS.registerSuccess);
-            $scope.setCurrentUser(user);
-            $location.path('/dashboard');
-            userService.user.isLogged = true;
+            $scope.setCurrentUser(null);
+            $location.path('/home');
+            userService.user.isLogged = false;
+            $cookieStore.put('loggedin', null);
             toaster.pop('success', 'Success!', 'You have successfully registered!');
         }, function() {
             $rootScope.$broadcast(REG_EVENTS.registerFailed);
+            $cookieStore.put('loggedin', null);
             toaster.pop('error', 'Failure!', 'Error in registering! Try Again with different credentials');
         });
     };
