@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, $http, storage, Event, MailingList) {
+    .controller('EventCtrl', function($scope, $location, $http, $timeout, storage, Event, MailingList) {
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -17,20 +17,15 @@ angular.module('projectApp')
         $scope.deleteEvent = function(eventId) {
             $http.post('http://localhost:8080/api/removefromml', {
                 eventId: eventId
-              })
-            .$promise.then(function(eventId) {
-                $scope.events.splice($scope.events.indexOf(eventId), 1);
-                Event.query(function(data) {
-                $scope.events = data;
-                });
-            }, 
-            function (err) {
-                console.error(err);
-            });
-            // TODO
-            // Refreshing
+              });
             Event.delete({
                 id: eventId
+            });
+            $timeout(function() {
+                $scope.events.splice($scope.events.indexOf(eventId), 1);
+                Event.query(function(data) {
+                    $scope.events = data;
+                });
             });
         };
 
@@ -44,7 +39,7 @@ angular.module('projectApp')
             $location.path('/event/edit');
         };
     })
-    .controller('EventEditCtrl', function($scope, $location, $http, storage, Event, MailingList) {
+    .controller('EventEditCtrl', function($scope, $location, $http, $timeout, storage, Event, MailingList) {
         $scope.editedEvent = storage.editedEvent;
         MailingList.query(function(data) {
             $scope.mailingLists = data;
@@ -59,19 +54,14 @@ angular.module('projectApp')
             }
             $http.post('http://localhost:8080/api/removefromml', {
                 eventId: event._id
-              })
-            .$promise.then(function(eventId) {
-              $scope.events.push(eventId);
-              $location.path('/event');
-              Event.query(function(data) {
-                    $scope.events = data;
               });
-            }, 
-            function (err) {
-                console.error(err);
+            $timeout(function() {
+                $scope.events.push(event._id);
+                Event.query(function(data) {
+                    $scope.events = data;
+                });
             });
-            // TODO
-            // Refreshing
+            $location.path('/event');
         };
         $scope.back = function() {
             $location.path('/event');

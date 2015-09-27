@@ -8,8 +8,24 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'AuthService', 'AUTH_EVENTS', 'userService', 'Session', 'toaster', 
-  function($scope, $rootScope, $location, $cookieStore, AuthService, AUTH_EVENTS, userService, Session, toaster) {
+.factory('safeApply', [function($rootScope) {
+    return function($scope, fn) {
+        var phase = $rootScope.$$phase;
+        if(phase == '$apply' || phase == '$digest') {
+            if (fn) {
+                $scope.$eval(fn);
+            }
+        } else {
+            if (fn) {
+                $scope.$apply(fn);
+            } else {
+                $scope.$apply();
+            }
+        }
+    };
+}])
+.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'AuthService', 'AUTH_EVENTS', 'userService', 'Session', 'toaster', 'safeApply', 
+  function($scope, $rootScope, $location, $cookieStore, AuthService, AUTH_EVENTS, userService, Session, toaster, safeApply) {
   $scope.credentials = {
     username: '',
     password: ''
@@ -18,9 +34,10 @@ angular.module('projectApp')
     AuthService.login(credentials).then(function(user) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       $scope.setCurrentUser(user);
-      $location.path('/dashboard');
       userService.user.isLogged = true;
       $cookieStore.put('loggedin', true);
+      safeApply($scope);
+      $location.path('/dashboard');
       toaster.pop('success', 'Success!', 'You are logged in!');
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
@@ -31,11 +48,11 @@ angular.module('projectApp')
   $scope.logout = function(user) {
     $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
     $scope.setCurrentUser(null);
-    $location.path('/');
     userService.user.isLogged = false;
     Session.destroy();
     $cookieStore.put('loggedin', null);
     $cookieStore.put('sessionId', null);
+    $location.path('/');
     toaster.pop('success', 'Success!', 'You have logged out!');
   };
 }])
