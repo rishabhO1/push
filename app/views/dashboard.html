@@ -10,8 +10,8 @@
                 <tr ng-repeat="mailingList in mailingLists">
                     <td>{{mailingList.name}}</td>
                     <td>
-                      <button ng-class="(containsObject(mailingList._id,currentUser.mailingLists))?'btn btn-default': 'btn btn-primary'" ng-click="subscribe(mailingList)">Subscribe</button>
-                      <button ng-class="(containsObject(mailingList._id,currentUser.mailingLists))?'btn btn-primary': 'btn btn-default'" ng-click="unsubscribe(mailingList)">Unsubscribe</button>
+                      <button class="btn btn-success" ng-click="subscribe(mailingList)" ng-hide="containsObject(mailingList._id,currentUser.mailingLists)">Subscribe</button>
+                      <button class="btn btn-danger" ng-click="unsubscribe(mailingList)" ng-hide="!containsObject(mailingList._id,currentUser.mailingLists)">Unsubscribe</button>
                     </td>
                 </tr>
             </tbody>
