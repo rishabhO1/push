@@ -8,8 +8,8 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'AuthService', 'AUTH_EVENTS', 'userService', 'Session', 
-  function($scope, $rootScope, $location, $cookieStore, AuthService, AUTH_EVENTS, userService, Session) {
+.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'AuthService', 'AUTH_EVENTS', 'userService', 'Session', 'toaster', 
+  function($scope, $rootScope, $location, $cookieStore, AuthService, AUTH_EVENTS, userService, Session, toaster) {
   $scope.credentials = {
     username: '',
     password: ''
@@ -21,9 +21,11 @@ angular.module('projectApp')
       $location.path('/dashboard');
       userService.user.isLogged = true;
       $cookieStore.put('loggedin', true);
+      toaster.pop('success', 'Success!', 'You are logged in!');
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       $cookieStore.put('loggedin', null);
+      toaster.pop('erroe', 'Failure!', 'Login Failed!');
     });
   };
   $scope.logout = function(user) {
@@ -34,6 +36,7 @@ angular.module('projectApp')
     Session.destroy();
     $cookieStore.put('loggedin', null);
     $cookieStore.put('sessionId', null);
+    toaster.pop('success', 'Success!', 'You have logged out!');
   };
 }])
 
@@ -164,24 +167,24 @@ angular.module('projectApp')
   });
 })
 
-// Cookie Security CSRF
+// Cookie Security CSRF(Cross site request forgery)
 // always set the correct CSRF header value before each request.
 // set the CSRF request header to the current value of the CSRF 
 // cookie for any request type not in allowedMethods
-.provider('myCSRF',[function(){
+.provider('myCSRF',function(){
   var headerName = 'X-CSRFToken';
   var cookieName = 'csrftoken';
   var allowedMethods = ['GET'];
 
   this.setHeaderName = function(n) {
     headerName = n;
-  }
+  };
   this.setCookieName = function(n) {
     cookieName = n;
-  }
+  };
   this.setAllowedMethods = function(n) {
     allowedMethods = n;
-  }
+  };
   this.$get = ['$cookies', function($cookies){
     return {
       'request': function(config) {
@@ -191,9 +194,9 @@ angular.module('projectApp')
         }
         return config;
       }
-    }
+    };
   }];
-}])
+})
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('myCSRF');
 })
