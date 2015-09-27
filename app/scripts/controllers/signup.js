@@ -23,8 +23,10 @@ angular.module('projectApp')
             $scope.setCurrentUser(user);
             $location.path('/dashboard');
             userService.user.isLogged = true;
+            toaster.pop('success', 'Success!', 'You have successfully registered!');
         }, function() {
             $rootScope.$broadcast(REG_EVENTS.registerFailed);
+            toaster.pop('error', 'Failure!', 'Error in registering! Try Again with different credentials');
         });
     };
 }])

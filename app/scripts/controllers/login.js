@@ -25,7 +25,7 @@ angular.module('projectApp')
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       $cookieStore.put('loggedin', null);
-      toaster.pop('erroe', 'Failure!', 'Login Failed!');
+      toaster.pop('error', 'Failure!', 'Login Failed!');
     });
   };
   $scope.logout = function(user) {
