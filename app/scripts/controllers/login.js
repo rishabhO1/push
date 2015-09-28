@@ -8,10 +8,10 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-.factory('safeApply', [function($rootScope) {
+.factory('safeApply', [function() {
     return function($scope, fn) {
-        var phase = $rootScope.$$phase;
-        if(phase == '$apply' || phase == '$digest') {
+        var phase = $scope.$root.$$phase;
+        if(phase === '$apply' || phase === '$digest') {
             if (fn) {
                 $scope.$eval(fn);
             }
@@ -38,11 +38,13 @@ angular.module('projectApp')
       $cookieStore.put('loggedin', true);
       safeApply($scope);
       $location.path('/dashboard');
-      toaster.pop('success', 'Success!', 'You are logged in!');
+      toaster.pop('success', 'Success!', 'You have successfully logged in!');
+      toaster.pop('default', 'Welcome!');
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       $cookieStore.put('loggedin', null);
       toaster.pop('error', 'Failure!', 'Login Failed!');
+      toaster.pop('default', 'Seeya!');
     });
   };
   $scope.logout = function(user) {

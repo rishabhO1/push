@@ -16,16 +16,18 @@ angular.module('projectApp')
 
         $scope.deleteEvent = function(eventId) {
             $http.post('http://localhost:8080/api/removefromml', {
+                mailingListName : $scope.mailingListName,
                 eventId: eventId
-              });
+              })
+            .then(function(){
+                $location.path('/event');
+            });
             Event.delete({
                 id: eventId
             });
-            $timeout(function() {
+            $location.path('/event');
+            $timeout(function(eventId) {
                 $scope.events.splice($scope.events.indexOf(eventId), 1);
-                Event.query(function(data) {
-                    $scope.events = data;
-                });
             });
         };
 
@@ -44,6 +46,9 @@ angular.module('projectApp')
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
+        Event.query(function(data) {
+            $scope.events = data;
+        });
         $scope.save = function(event) {
             if (storage.newEvent) {
                 Event.save(event);
@@ -52,16 +57,13 @@ angular.module('projectApp')
                     id: event._id
                 }, event);
             }
-            $http.post('http://localhost:8080/api/removefromml', {
+            $http.post('http://localhost:8080/api/addtoml', {
+                mailingListName : $scope.mailingListName,
                 eventId: event._id
-              });
-            $timeout(function() {
-                $scope.events.push(event._id);
-                Event.query(function(data) {
-                    $scope.events = data;
-                });
+              })
+            .then(function(){
+                $location.path('/event');
             });
-            $location.path('/event');
         };
         $scope.back = function() {
             $location.path('/event');

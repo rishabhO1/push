@@ -277,7 +277,7 @@ router.post('/unsubscribe', function(req,res) {
 
 router.post('/addtoml', function(req,res) {
   var eventId= req.body.event_id;
-  MailingList.update({$addToSet: {events:eventId}},{upsert:true},function(err){
+  MailingList.update({name: mailingListName}, {$addToSet: {events:eventId}},{upsert:true},function(err){
       if(err){
         res.json({ message: 'Error' });
       }else{
@@ -288,7 +288,7 @@ router.post('/addtoml', function(req,res) {
 
 router.post('/removefromml', function(req,res) {
   var eventId= req.body.event_id;
-  MailingList.update({$pull: {events:eventId}},function(err){
+  MailingList.update({name: mailingListName}, {$pull: {events:eventId}},function(err){
       if(err){
         res.json({ message: 'Error' });
       }else{

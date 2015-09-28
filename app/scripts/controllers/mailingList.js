@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('mailingListCtrl', function($scope, $location, storage, MailingList) {
+    .controller('mailingListCtrl', function($scope, $location, $timeout, storage, MailingList) {
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
@@ -18,8 +18,8 @@ angular.module('projectApp')
             MailingList.delete({
                 id: mailingListId
             });
-            MailingList.query(function(data) {
-                $scope.mailingLists = data;
+            $timeout(function(mailingListId) {
+                $scope.mailingLists.splice($scope.mailingLists.indexOf(mailingListId), 1);
             });
         };
 
@@ -33,8 +33,11 @@ angular.module('projectApp')
             $location.path('/mailingLists/edit');
         };
     })
-    .controller('mailingListEditCtrl', function($scope, $location, storage, MailingList) {
+    .controller('mailingListEditCtrl', function($scope, $location, $timeout, storage, MailingList) {
         $scope.editedMailingList = storage.editedMailingList;
+        MailingList.query(function(data) {
+            $scope.mailingLists = data;
+        });
         $scope.save = function(mailingList) {
             if (storage.newMailingList) {
                 MailingList.save(mailingList);
@@ -43,7 +46,11 @@ angular.module('projectApp')
                     id: mailingList._id
                 }, mailingList);
             }
+            MailingList.query(function(data) {
+                $scope.mailingLists = data;
+            });
             $location.path('/mailingLists');
+            $scope.mailingLists.push(mailingList._id);
         };
         $scope.back = function() {
             $location.path('/mailingLists');
