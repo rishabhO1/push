@@ -44,7 +44,6 @@ angular.module('projectApp')
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       $cookieStore.put('loggedin', null);
       toaster.pop('error', 'Failure!', 'Login Failed!');
-      toaster.pop('default', 'Seeya!');
     });
   };
   $scope.logout = function(user) {
@@ -56,6 +55,7 @@ angular.module('projectApp')
     $cookieStore.put('sessionId', null);
     $location.path('/');
     toaster.pop('success', 'Success!', 'You have logged out!');
+    toaster.pop('default', 'Seeya!');
   };
 }])
 

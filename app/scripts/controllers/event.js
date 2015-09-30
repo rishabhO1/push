@@ -28,6 +28,7 @@ angular.module('projectApp')
             $location.path('/event');
             $timeout(function(eventId) {
                 $scope.events.splice($scope.events.indexOf(eventId), 1);
+                // splice not working correctly
             });
         };
 
@@ -50,6 +51,9 @@ angular.module('projectApp')
             $scope.events = data;
         });
         $scope.save = function(event) {
+            Event.query(function(data) {
+                    $scope.events = data;
+                });
             if (storage.newEvent) {
                 Event.save(event);
             } else {
@@ -58,11 +62,14 @@ angular.module('projectApp')
                 }, event);
             }
             $http.post('http://localhost:8080/api/addtoml', {
-                mailingListName : $scope.mailingListName,
+                //mailingListName : $scope.mailingListName,
                 eventId: event._id
               })
             .then(function(){
                 $location.path('/event');
+            });
+            $timeout(function() {
+                $scope.events.push(event._id);
             });
         };
         $scope.back = function() {

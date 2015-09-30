@@ -20,6 +20,7 @@ angular.module('projectApp')
             });
             $timeout(function(mailingListId) {
                 $scope.mailingLists.splice($scope.mailingLists.indexOf(mailingListId), 1);
+                // splice not working correctly
             });
         };
 
@@ -49,8 +50,8 @@ angular.module('projectApp')
             MailingList.query(function(data) {
                 $scope.mailingLists = data;
             });
-            $location.path('/mailingLists');
             $scope.mailingLists.push(mailingList._id);
+            $location.path('/mailingLists');
         };
         $scope.back = function() {
             $location.path('/mailingLists');
