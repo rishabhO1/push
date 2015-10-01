@@ -256,7 +256,7 @@ router.post('/subscribe', function(req,res) {
   var mailingListId= req.body.mailingListId;
   User.update({username: username},{$addToSet: {mailingLists:mailingListId}},{upsert:true},function(err){
       if(err){
-        res.json({ message: 'Error' });
+        res.json({ message: err });
       }else{
         res.json({ message: 'Success' });
       }
@@ -268,7 +268,7 @@ router.post('/unsubscribe', function(req,res) {
   var mailingListId= req.body.mailingListId;
   User.update({username: username},{$pull: {mailingLists:mailingListId}},function(err){
       if(err){
-        res.json({ message: 'Error' });
+        res.json({ message: err });
       }else{
         res.json({ message: 'Success' });
       }
@@ -276,10 +276,11 @@ router.post('/unsubscribe', function(req,res) {
 });
 
 router.post('/addtoml', function(req,res) {
+  var name = req.body.mailingListName;
   var eventId= req.body.event_id;
-  MailingList.update({name: mailingListName}, {$addToSet: {events:eventId}},{upsert:true},function(err){
+  MailingList.update({name: name}, {$addToSet: {events:eventId}},{upsert:true},function(err){
       if(err){
-        res.json({ message: 'Error' });
+        res.json({ message: err });
       }else{
         res.json({ message: 'Success' });
       }
@@ -287,10 +288,11 @@ router.post('/addtoml', function(req,res) {
 });
 
 router.post('/removefromml', function(req,res) {
+  var name = req.body.mailingListName;
   var eventId= req.body.event_id;
-  MailingList.update({name: mailingListName}, {$pull: {events:eventId}},function(err){
+  MailingList.update({name: name}, {$pull: {events:eventId}},function(err){
       if(err){
-        res.json({ message: 'Error' });
+        res.json({ message: err });
       }else{
         res.json({ message: 'Success' });
       }

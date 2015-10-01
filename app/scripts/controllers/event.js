@@ -16,7 +16,7 @@ angular.module('projectApp')
 
         $scope.deleteEvent = function(eventId) {
             $http.post('http://localhost:8080/api/removefromml', {
-                mailingListName : $scope.mailingListName,
+                mailingListName : event.mailingListName,
                 eventId: eventId
               })
             .then(function(){
@@ -62,7 +62,7 @@ angular.module('projectApp')
                 }, event);
             }
             $http.post('http://localhost:8080/api/addtoml', {
-                //mailingListName : $scope.mailingListName,
+                name : event.mailingListName,
                 eventId: event._id
               })
             .then(function(){
