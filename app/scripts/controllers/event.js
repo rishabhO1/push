@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, $http, $timeout, storage, Event, MailingList) {
+    .controller('EventCtrl', function($scope, $location, $http, $timeout, $filter, storage, Event, MailingList) {
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -25,11 +25,7 @@ angular.module('projectApp')
             Event.delete({
                 id: eventId
             });
-            $location.path('/event');
-            $timeout(function(eventId) {
-                $scope.events.splice($scope.events.indexOf(eventId), 1);
-                // splice not working correctly
-            });
+            $scope.events = $filter('filter')($scope.events, {_id: '!'+eventId})
         };
 
         $scope.editEvent = function(event) {
@@ -66,10 +62,10 @@ angular.module('projectApp')
                 eventId: event._id
               })
             .then(function(){
+                Event.query(function(data) {
+                    $scope.events = data;
+                });
                 $location.path('/event');
-            });
-            $timeout(function() {
-                $scope.events.push(event._id);
             });
         };
         $scope.back = function() {

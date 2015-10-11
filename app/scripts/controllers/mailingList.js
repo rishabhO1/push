@@ -9,7 +9,7 @@
  */
 
 angular.module('projectApp')
-    .controller('mailingListCtrl', function($scope, $location, $timeout, storage, MailingList) {
+    .controller('mailingListCtrl', function($scope, $location, $timeout,$filter, storage, MailingList) {
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
@@ -18,10 +18,7 @@ angular.module('projectApp')
             MailingList.delete({
                 id: mailingListId
             });
-            $timeout(function(mailingListId) {
-                $scope.mailingLists.splice($scope.mailingLists.indexOf(mailingListId), 1);
-                // splice not working correctly
-            });
+            $scope.mailingLists = $filter('filter')($scope.mailingLists, {_id: '!'+mailingListId})
         };
 
         $scope.editmailingList = function(mailingList) {
@@ -36,9 +33,11 @@ angular.module('projectApp')
     })
     .controller('mailingListEditCtrl', function($scope, $location, $timeout, storage, MailingList) {
         $scope.editedMailingList = storage.editedMailingList;
-        MailingList.query(function(data) {
-            $scope.mailingLists = data;
-        });
+        var refreshMailingLists = function(){
+          MailingList.query(function(data) {
+              $scope.mailingLists = data;
+          });
+        };
         $scope.save = function(mailingList) {
             if (storage.newMailingList) {
                 MailingList.save(mailingList);
@@ -47,11 +46,10 @@ angular.module('projectApp')
                     id: mailingList._id
                 }, mailingList);
             }
-            MailingList.query(function(data) {
-                $scope.mailingLists = data;
-            });
-            $scope.mailingLists.push(mailingList._id);
-            $location.path('/mailingLists');
+            $timeout(function(){
+              refreshMailingLists();
+              $location.path('/mailingLists');
+            }, 500);
         };
         $scope.back = function() {
             $location.path('/mailingLists');
