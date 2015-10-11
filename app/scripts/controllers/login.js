@@ -130,7 +130,7 @@ angular.module('projectApp')
   // restricting route access
   $scope.user = userService.user;
   $scope.$on('$routeChangeStart', function (e, next, current) {               
-     if (next.access !== undefined && !next.access.allowAnonymous && !$scope.loggedIn) {
+     if (next.access !== undefined && !next.access.allowAnonymous && !userService.user.isLogged) {
                 $location.path('/login');                   
             }
   });
