@@ -9,7 +9,8 @@
  */
 
 angular.module('projectApp')
-    .controller('EventCtrl', function($scope, $location, $http, $timeout, $filter, storage, Event, MailingList) {
+    .controller('EventCtrl', ['$scope', '$location', '$http', '$timeout', '$filter', 'storage', 'Event', 'MailingList',
+        function($scope, $location, $http, $timeout, $filter, storage, Event, MailingList) {
         Event.query(function(data) {
             $scope.events = data;
         });
@@ -37,8 +38,9 @@ angular.module('projectApp')
             }
             $location.path('/event/edit');
         };
-    })
-    .controller('EventEditCtrl', function($scope, $location, $http, $timeout, storage, Event, MailingList) {
+    }])
+    .controller('EventEditCtrl', ['$scope', '$location', '$http', '$timeout', 'storage', 'Event', 'MailingList',
+        function($scope, $location, $http, $timeout, storage, Event, MailingList) {
         $scope.editedEvent = storage.editedEvent;
         MailingList.query(function(data) {
             $scope.mailingLists = data;
@@ -71,4 +73,4 @@ angular.module('projectApp')
         $scope.back = function() {
             $location.path('/event');
         };
-    });
+    }]);

@@ -9,7 +9,8 @@
  */
 
 angular.module('projectApp')
-    .controller('mailingListCtrl', function($scope, $location, $timeout,$filter, storage, MailingList) {
+    .controller('mailingListCtrl', ['$scope', '$location', '$timeout', '$filter', 'storage', 'MailingList', 
+        function($scope, $location, $timeout,$filter, storage, MailingList) {
         MailingList.query(function(data) {
             $scope.mailingLists = data;
         });
@@ -30,8 +31,9 @@ angular.module('projectApp')
             }
             $location.path('/mailingLists/edit');
         };
-    })
-    .controller('mailingListEditCtrl', function($scope, $location, $timeout, storage, MailingList) {
+    }])
+    .controller('mailingListEditCtrl', ['$scope', '$location', '$timeout', 'storage', 'MailingList',
+        function($scope, $location, $timeout, storage, MailingList) {
         $scope.editedMailingList = storage.editedMailingList;
         var refreshMailingLists = function(){
           MailingList.query(function(data) {
@@ -54,4 +56,4 @@ angular.module('projectApp')
         $scope.back = function() {
             $location.path('/mailingLists');
         };
-    });
+    }]);
