@@ -1,19 +1,21 @@
-    <div class="panel panel-default">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th style="text-align: center">Name</th>
-                    <th style="text-align: center">Select</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="mailingList in mailingLists">
-                    <td>{{mailingList.name}}</td>
-                    <td>
-                      <button class="btn btn-success" ng-click="subscribe(mailingList)" ng-hide="containsObject(mailingList._id,currentUser.mailingLists)">Subscribe</button>
-                      <button class="btn btn-danger" ng-click="unsubscribe(mailingList)" ng-hide="!containsObject(mailingList._id,currentUser.mailingLists)">Unsubscribe</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="panel panel-default">
+    <div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="text-align: center">Name</th>
+                <th style="text-align: center">Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="mailingList in mailingLists">
+                <td>{{mailingList.name}}</td>
+                <td>
+                  <button class="btn btn-success" ng-click="subscribe(mailingList)" ng-hide="containsObject(mailingList._id,currentUser.mailingLists)">Subscribe</button>
+                  <button class="btn btn-danger" ng-click="unsubscribe(mailingList)" ng-hide="!containsObject(mailingList._id,currentUser.mailingLists)">Unsubscribe</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     </div>
+</div>
