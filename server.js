@@ -120,6 +120,8 @@ function(req, username, password, done) {
         var newUser = new User();
         // set the user's local credentials
         newUser.username = username;
+        newUser.fullName = req.param('fullName');
+        newUser.rollNo = req.param('rollNo');
         newUser.password = createHash(password);
         newUser.email = req.param('email');
         newUser.contact = req.param('contact');
