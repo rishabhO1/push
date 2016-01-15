@@ -71,6 +71,7 @@ groupIt = function(){
   for(mailingListName in grouped){
     consolidateEmailsForMailingList(mailingListName, grouped[mailingListName]);
   }
+  console.log('Emails grouped');
 }
 
 // consolidate notifications to be send to each user
@@ -79,25 +80,29 @@ consolidateEmailsForMailingList = function(mailingListId, events) {
     'name': mailingListId
   }, function(err, mailingList){
     mailingList.users.map(function(user){
+      console.log(user);
       if (!(user in emailsToBeSent)) emailsToBeSent[user] = [];
       emailsToBeSent[user] = emailsToBeSent[user].concat(events);
     });
     totalMailingListsToBeProcessed -= 1;
     if (totalMailingListsToBeProcessed == 0) sendEmails();
   })
+  console.log('Emails consolidated for MLs');
 }
 
 createMessage = function(events){
+  console.log('Message Creating initiated');
   message = "Number of events today: " + events.length + '\n';
   sortedEvents = _und.sortBy(events, function(o){ return o.Time});
   sortedEvents.map(function(event){
     message += moment(event.Time).format("hh:mm a") + " : " + event.eventName + " (" + event.Description + ")\n";
-  })
+  });
   return message;
 }
 
 sendEmail = function(user, message){
-  console.log("Sending Email to : "+ user.email);
+  console.log(user);
+  console.log("Sending Email to : "+ user);
   console.log("Message : ");
   console.log("-------------------------");
   // EMAIL API CALL
@@ -108,7 +113,7 @@ sendEmail = function(user, message){
       "from_email": "push@sum.co.in",
       "from_name": "Push",
       "to": [{
-              "email": user.email,
+              "email": user,
           }],
   };
   var async = false;
@@ -122,12 +127,12 @@ sendEmail = function(user, message){
 }
 
 sendEmails = function(){
+  console.log('Email sending initiated.');
+  console.log(emailsToBeSent);
   for (userId in emailsToBeSent) {
+    console.log('sendEmails:'+userId);
     messageToBeSent = createMessage(emailsToBeSent[userId]);
-    User.findById(userId, function(err, user){
-      sendEmail(user, messageToBeSent);
-    })
-
+    sendEmail(userId, messageToBeSent);
   }
   // emails = getEmailOfSubscribers(mailingListId);
   // emailMessage = createMessage(events);

@@ -84,7 +84,7 @@ angular.module('projectApp')
     .post('http://localhost:8080/api/login', credentials)
     .then(function(res) {
       Session.create(res.data.id, res.data.user.id,
-                     res.data.user.role);
+                     res.data.user.email, res.data.user.role);
       $cookieStore.put('sessionId', res.data.id);
        return res.data.user;
     });
@@ -119,6 +119,11 @@ angular.module('projectApp')
 })
 .controller('ApplicationController', ['$scope', '$rootScope', '$location', '$cookieStore', '$cookies','USER_ROLES','AuthService', 'userService', 'toaster', 'Session', 
   function($scope, $rootScope, $location, $cookieStore, $cookies,USER_ROLES, AuthService, userService, toaster, Session) {
+  
+  $scope.isActive = function(viewLocation) {
+      return viewLocation === $location.path();
+  };
+
   $scope.currentUser = null;
   $scope.userRoles = USER_ROLES;
   $scope.isAuthorized = AuthService.isAuthorized;

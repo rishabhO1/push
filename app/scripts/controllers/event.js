@@ -60,7 +60,7 @@ angular.module('projectApp')
                 }, event);
             }
             $http.post('http://localhost:8080/api/addtoml', {
-                name : event.mailingListName,
+                mailingListName : event.mailingListName,
                 eventId: event._id
               })
             .then(function(){

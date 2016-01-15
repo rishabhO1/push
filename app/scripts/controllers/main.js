@@ -8,11 +8,9 @@
  * Controller of the projectApp
  */
 angular.module('projectApp')
-    .controller('MainCtrl', function($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
-    });
+    .controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
+        $scope.isActive = function(viewLocation) {
+            return viewLocation === $location.path();
+        };
+    }]);
     

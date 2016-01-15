@@ -200,6 +200,7 @@ router.post('/login', function(req, res, next) {
       id: req.sessionID,
       user: {
         id: user.username,
+        email: user.email,
         role: "guest",
         mailingLists: user.mailingLists,
       },
@@ -255,8 +256,10 @@ router.get('/dashboard', isAuthenticated, function(req, res) {
 
 router.post('/subscribe', function(req,res) {
   var username = req.body.username;
+  var email = req.body.email;
   var mailingListId= req.body.mailingListId;
-  User.update({username: username},{$addToSet: {mailingLists:mailingListId}},{upsert:true},function(err){
+  User.update({username: username},{$addToSet: {mailingLists:mailingListId}},{upsert:true},function(err){  });
+  MailingList.update({_id: mailingListId}, {$addToSet: {users:email}},{upsert:true},function(err){
       if(err){
         res.json({ message: err });
       }else{
@@ -267,8 +270,10 @@ router.post('/subscribe', function(req,res) {
 
 router.post('/unsubscribe', function(req,res) {
   var username = req.body.username;
+  var email = req.body.email; 
   var mailingListId= req.body.mailingListId;
-  User.update({username: username},{$pull: {mailingLists:mailingListId}},function(err){
+  User.update({username: username},{$pull: {mailingLists:mailingListId}},function(err){  });
+  MailingList.update({_id: mailingListId}, {$pull: {users:email}},function(err){
       if(err){
         res.json({ message: err });
       }else{

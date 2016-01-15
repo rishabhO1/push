@@ -28,6 +28,7 @@ angular.module('projectApp')
           $http
           .post('http://localhost:8080/api/subscribe', {
             username: $scope.currentUser.id,
+            email: $scope.currentUser.email,
             mailingListId: mailingList._id
           })
           .then(function(res) {
@@ -40,6 +41,7 @@ angular.module('projectApp')
           $http
           .post('http://localhost:8080/api/unsubscribe', {
             username: $scope.currentUser.id,
+            email: $scope.currentUser.email,
             mailingListId: mailingList._id
           })
           .then(function(res) {
