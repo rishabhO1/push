@@ -93,6 +93,11 @@ angular
                 controller: 'mailingListEditCtrl',
                 access : {allowAnonymous : false}
             })
+            .when('/profile', {
+                templateUrl: 'views/profile.html',
+                controller: 'DashboardCtrl',
+                access : {allowAnonymous : true}
+            })
 
         .otherwise({
             redirectTo: '/'

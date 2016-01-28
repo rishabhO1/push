@@ -43,6 +43,7 @@
                         <li ng-class="{ active: isActive('/dashboard')}"><a ng-if="currentUser" ng-href="#/dashboard">Dashboard</a></li>
                         <li ng-class="{ active: isActive('/mailingLists')}"><a ng-if="currentUser" ng-href="#/mailingLists">Mailing lists</a></li>
                         <li ng-class="{ active: isActive('/event')}"><a ng-if="currentUser" ng-href="#/event">Events</a></li>
+                        <li ng-class="{ active: isActive('/profile')}"><a ng-if="currentUser" ng-href="#/profile">Profile</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
                       <li><a ng-if="currentUser">Welcome, {{ currentUser.id }}</a></li>

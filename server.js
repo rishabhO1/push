@@ -199,6 +199,9 @@ router.post('/login', function(req, res, next) {
     return res.send({
       id: req.sessionID,
       user: {
+        name: user.fullName,
+        roll: user.rollNo,
+        contact: user.contact,
         id: user.username,
         email: user.email,
         role: "guest",
