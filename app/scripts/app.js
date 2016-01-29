@@ -96,7 +96,7 @@ angular
             .when('/profile', {
                 templateUrl: 'views/profile.html',
                 controller: 'DashboardCtrl',
-                access : {allowAnonymous : true}
+                access : {allowAnonymous : false}
             })
 
         .otherwise({

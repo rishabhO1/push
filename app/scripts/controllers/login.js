@@ -37,7 +37,7 @@ angular.module('projectApp')
       userService.user.isLogged = true;
       $cookieStore.put('loggedin', true);
       safeApply($scope);
-      $location.path('/dashboard');
+      $location.path('/profile');
       toaster.pop('success', 'Success!', 'You have successfully logged in!');
       toaster.pop('default', 'Welcome!');
     }, function() {

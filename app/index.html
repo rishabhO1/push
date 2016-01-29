@@ -35,14 +35,14 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#/">
-                        <img style="max-width:100px; margin-top: -7px;" src="images/push.jpg" alt="Push"></a>
+                        <img style="max-width:100px; margin-top: -12px;" src="images/push.jpg" alt="Push"></a>
                 </div>
                 <div class="collapse navbar-collapse" id="js-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li ng-class="{ active: isActive('/')}"><a href="#/">Home</a></li>
                         <li ng-class="{ active: isActive('/dashboard')}"><a ng-if="currentUser" ng-href="#/dashboard">Dashboard</a></li>
-                        <li ng-class="{ active: isActive('/mailingLists')}"><a ng-if="currentUser" ng-href="#/mailingLists">Mailing lists</a></li>
-                        <li ng-class="{ active: isActive('/event')}"><a ng-if="currentUser" ng-href="#/event">Events</a></li>
+                        <!-- <li ng-class="{ active: isActive('/mailingLists')}"><a ng-if="currentUser" ng-href="#/mailingLists">Mailing lists</a></li>
+                        <li ng-class="{ active: isActive('/event')}"><a ng-if="currentUser" ng-href="#/event">Events</a></li> -->
                         <li ng-class="{ active: isActive('/profile')}"><a ng-if="currentUser" ng-href="#/profile">Profile</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
