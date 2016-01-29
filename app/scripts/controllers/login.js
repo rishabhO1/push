@@ -49,11 +49,11 @@ angular.module('projectApp')
   $scope.logout = function(user) {
     $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
     $scope.setCurrentUser(null);
+     $location.path('/');
     userService.user.isLogged = false;
     Session.destroy();
     $cookieStore.put('loggedin', null);
     $cookieStore.put('sessionId', null);
-    $location.path('/');
     toaster.pop('success', 'Success!', 'You have logged out!');
     toaster.pop('default', 'Seeya!');
   };
