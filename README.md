@@ -1,6 +1,10 @@
+# push
+
+A web application to keep you notified of your daily activities and keeps you updated of all the important events.
+
 # Project
 
-This project is uses Node.js for maintaining server-side code, AngularJS for client-side code alongwith ExpressJS framework and MongoDB to maintain database.
+This project was built upon MEAN stack, along with Bootstrap for styling and some libraries on top of it for added functionalities.
 
 ## Build & development
 
